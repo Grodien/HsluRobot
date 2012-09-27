@@ -4,25 +4,21 @@
 // Repository:
 //    $Id: RobotConsole.cs 564 2011-03-07 07:31:52Z zajost $
 //------------------------------------------------------------------------------
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 
-namespace RobotCtrl
+using RobotControl.Input;
+using RobotControl.Output;
+
+namespace RobotControl
 {
-
     /// <summary>
     /// Bildet die Konsole des Roboters ab, die aus den LED's und Schaltern besteht.
     /// </summary>
     public class RobotConsole
     {
-
         #region members
-        private Led[] leds;
-        private Switch[] switches;
+        private readonly Led[] _leds;
+        private readonly Switch[] _switches;
         #endregion
-
 
         #region constructor & destructor
         /// <summary>
@@ -30,25 +26,24 @@ namespace RobotCtrl
         /// </summary>
         public RobotConsole()
         {
-            leds = new Led[4];
-            for (int i = 0; i < leds.Length; i++)
+            _leds = new Led[4];
+            for (int i = 0; i < _leds.Length; i++)
             {
-                leds[i] = new Led((Leds)i);
+                _leds[i] = new Led((Leds)i);
             }
 
-            switches = new Switch[4];
-            for (int i = 0; i < switches.Length; i++)
+            _switches = new Switch[4];
+            for (int i = 0; i < _switches.Length; i++)
             {
-                switches[i] = new Switch((Switches)i);
-                switches[i].SwitchStateChanged += RobotConsoleSwitchStateChanged;
+                _switches[i] = new Switch((Switches)i);
+                _switches[i].SwitchStateChanged += RobotConsoleSwitchStateChanged;
             }
         }
 
         void RobotConsoleSwitchStateChanged(object sender, SwitchEventArgs e) {
-            leds[(int) e.Swi].LedEnabled = e.SwitchEnabled;
+            _leds[(int) e.Swi].LedEnabled = e.SwitchEnabled;
         }
         #endregion
-
 
         #region methods
         /// <summary>
@@ -58,9 +53,8 @@ namespace RobotCtrl
         /// <returns></returns>
         public Led this[Leds led]
         {
-            get { return leds[(int)led]; }
+            get { return _leds[(int)led]; }
         }
-
 
         /// <summary>
         /// Zugriff auf die Schalter per Indexer
@@ -69,9 +63,8 @@ namespace RobotCtrl
         /// <returns></returns>
         public Switch this[Switches swi]
         {
-            get { return switches[(int)swi]; }
+            get { return _switches[(int)swi]; }
         }
         #endregion
-
     }
 }

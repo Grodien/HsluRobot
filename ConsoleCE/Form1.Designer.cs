@@ -29,7 +29,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            RobotCtrl.RobotConsole robotConsole1 = new RobotCtrl.RobotConsole();
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.consoleView1 = new RobotUI.ConsoleView();
             this.SuspendLayout();
@@ -39,7 +38,6 @@
             this.consoleView1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.consoleView1.Location = new System.Drawing.Point(3, 3);
             this.consoleView1.Name = "consoleView1";
-            this.consoleView1.RobotConsole = robotConsole1;
             this.consoleView1.Size = new System.Drawing.Size(212, 49);
             this.consoleView1.TabIndex = 0;
             // 

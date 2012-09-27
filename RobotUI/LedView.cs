@@ -1,13 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Text;
+﻿using System.Globalization;
 using System.Windows.Forms;
-using RobotCtrl;
+using RobotControl.Output;
 using RobotUI.Properties;
 
 namespace RobotUI
@@ -31,8 +24,8 @@ namespace RobotUI
             set { 
                 _led = value;
                 if (value != null) {
-                    value.LedStateChanged += ValueLedStateChanged;
                     Index = ((int)_led.LedEnum + 1).ToString(CultureInfo.InvariantCulture);
+                    value.LedStateChanged += ValueLedStateChanged;
                 }
             }
         }

@@ -1,5 +1,4 @@
 ﻿using System.Windows.Forms;
-using RobotCtrl;
 using System;
 
 namespace ConsoleCE

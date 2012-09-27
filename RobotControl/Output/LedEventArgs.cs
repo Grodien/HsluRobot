@@ -4,12 +4,10 @@
 // Repository:
 //    $Id: LedEventArgs.cs 513 2011-02-17 15:17:16Z zajost $
 //------------------------------------------------------------------------------
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 
-namespace RobotCtrl
+using System;
+
+namespace RobotControl.Output
 {
     /// <summary>
     /// EventArgs-Klasse um über Änderungen der LED's zu informieren.

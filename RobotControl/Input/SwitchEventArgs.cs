@@ -4,20 +4,16 @@
 // Repository:
 //    $Id: SwitchEventArgs.cs 513 2011-02-17 15:17:16Z zajost $
 //------------------------------------------------------------------------------
+
 using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 
-namespace RobotCtrl
+namespace RobotControl.Input
 {
-
     /// <summary>
     /// EventArgs-Klasse um über Änderungen der Schalter zu informieren.
     /// </summary>
     public class SwitchEventArgs : EventArgs
     {
-
         #region constructor & destructor
         /// <summary>
         /// Initialisiert die SwitchEventArgs-Klasse
@@ -31,13 +27,11 @@ namespace RobotCtrl
         }
         #endregion
 
-
         #region properties
         /// <summary>
         /// Liefert bzw. setzt die Eigenschaft, ob der Schalter aktiviert ist oder nicht
         /// </summary>
         public bool SwitchEnabled { get; set; }
-
 
         /// <summary>
         /// Liefert bzw. setzt den betroffenen Schalter

@@ -4,39 +4,24 @@
 // Repository:
 //    $Id: Switch.cs 513 2011-02-17 15:17:16Z zajost $
 //------------------------------------------------------------------------------
+
 using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 
-namespace RobotCtrl
+namespace RobotControl.Input
 {
-
-    public enum Switches
-    {
-        Switch1 = 0,
-        Switch2,
-        Switch3,
-        Switch4
-    }
-
-
     /// <summary>
     /// Diese Klasse bildet einen Schalter des Roboters ab
     /// </summary>
     public class Switch
     {
-
         #region members
-        private Switches swi;
-        private bool switchEnabled;
+        private readonly Switches _switch;
+        private bool _switchEnabled;
         #endregion
-
 
         #region eventhandler
         public event EventHandler<SwitchEventArgs> SwitchStateChanged;
         #endregion
-
 
         #region constructor & destructor
         /// <summary>
@@ -45,11 +30,10 @@ namespace RobotCtrl
         /// <param name="swi">der abzubildende Schalter</param>
         public Switch(Switches swi)
         {
-            this.swi = swi;
-            this.switchEnabled = false;
+            _switch = swi;
+            _switchEnabled = false;
         }
         #endregion
-
 
         #region properties
         /// <summary>
@@ -57,15 +41,14 @@ namespace RobotCtrl
         /// </summary>
         public bool SwitchEnabled
         {
-            get { return switchEnabled; }
+            get { return _switchEnabled; }
             set
             {
-                switchEnabled = value;
-                OnSwitchStateChanged(new SwitchEventArgs(this.swi, value));
+                _switchEnabled = value;
+                OnSwitchStateChanged(new SwitchEventArgs(_switch, value));
             }
         }
         #endregion
-
 
         #region methods
         /// <summary>
@@ -80,6 +63,5 @@ namespace RobotCtrl
             }
         }
         #endregion
-
     }
 }

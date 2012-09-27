@@ -4,33 +4,20 @@
 // Repository:
 //    $Id: Led.cs 513 2011-02-17 15:17:16Z zajost $
 //------------------------------------------------------------------------------
+
 using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 
-namespace RobotCtrl
+namespace RobotControl.Output
 {
-
-    public enum Leds
-    {
-        Led1 = 0,
-        Led2,
-        Led3,
-        Led4
-    }
-
-
     /// <summary>
     /// Diese Klasse bildet eine LED des Roboters ab.
     /// </summary>
     public class Led
     {
-
         #region members
         public Leds LedEnum { get; private set; }
 
-        private bool ledEnabled;
+        private bool _ledEnabled;
         #endregion
 
 
@@ -58,12 +45,12 @@ namespace RobotCtrl
         /// </summary>
         public bool LedEnabled
         {
-            get { return this.ledEnabled; }
+            get { return _ledEnabled; }
             set
             {
-                if (value != ledEnabled)
+                if (value != _ledEnabled)
                 {
-                    ledEnabled = value;
+                    _ledEnabled = value;
                     OnLedStateChanged();
                 }
             }
@@ -80,7 +67,7 @@ namespace RobotCtrl
         {
             if (LedStateChanged != null)
             {
-                LedStateChanged(this, new LedEventArgs(LedEnum, this.ledEnabled));
+                LedStateChanged(this, new LedEventArgs(LedEnum, _ledEnabled));
             }
         }
         #endregion

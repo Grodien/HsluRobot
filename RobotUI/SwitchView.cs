@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-using RobotCtrl;
+using RobotControl.Input;
 using RobotUI.Properties;
 
 namespace RobotUI
@@ -19,7 +19,7 @@ namespace RobotUI
             set { 
                 _switch = value;
                 if (value != null)
-                    value.SwitchStateChanged += ValueSwitchStateChanged;
+                    _switch.SwitchStateChanged += ValueSwitchStateChanged;
             }
         }
 
