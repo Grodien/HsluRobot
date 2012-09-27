@@ -79,6 +79,16 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RobotControl\RobotControl.csproj">
+      <Project>{2367809C-C1C0-46FF-9BA1-24D9B73DA2D8}</Project>
+      <Name>RobotControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RobotUI\RobotUI.csproj">
+      <Project>{5703687F-88F2-4A96-A96A-11303F42CB37}</Project>
+      <Name>RobotUI</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

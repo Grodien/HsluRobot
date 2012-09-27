@@ -56,6 +56,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsoleView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ConsoleView.Designer.cs">
+      <DependentUpon>ConsoleView.cs</DependentUpon>
+    </Compile>
     <Compile Include="LedView.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -68,14 +74,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="SwitchView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SwitchView.Designer.cs">
+      <DependentUpon>SwitchView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ConsoleView.resx">
+      <DependentUpon>ConsoleView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LedView.resx">
       <DependentUpon>LedView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwitchView.resx">
+      <DependentUpon>SwitchView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -89,6 +107,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\LedOff.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RobotControl\RobotControl.csproj">
+      <Project>{2367809C-C1C0-46FF-9BA1-24D9B73DA2D8}</Project>
+      <Name>RobotControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

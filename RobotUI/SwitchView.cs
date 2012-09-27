@@ -10,18 +10,13 @@ using RobotCtrl;
 
 namespace RobotUI
 {
-    public partial class LedView : UserControl
+    public partial class SwitchView : UserControl
     {
-        public LedView()
+        public SwitchView()
         {
             InitializeComponent();
         }
 
-        public string Index { 
-            get { return lblIndex.Text; }
-            set { lblIndex.Text = value; }
-        }
-
-        public Led Led { get; set; }
+        public Switch Switch { get; set; }
     }
 }

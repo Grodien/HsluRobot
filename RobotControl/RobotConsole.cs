@@ -30,14 +30,14 @@ namespace RobotCtrl
         /// </summary>
         public RobotConsole()
         {
-            this.leds = new Led[4];
-            for (int i = 0; i < this.leds.Length; i++)
+            leds = new Led[4];
+            for (int i = 0; i < leds.Length; i++)
             {
                 leds[i] = new Led((Leds)i);
             }
 
-            this.switches = new Switch[4];
-            for (int i = 0; i < this.switches.Length; i++)
+            switches = new Switch[4];
+            for (int i = 0; i < switches.Length; i++)
             {
                 switches[i] = new Switch((Switches)i);
             }
@@ -53,7 +53,7 @@ namespace RobotCtrl
         /// <returns></returns>
         public Led this[Leds led]
         {
-            get { return this.leds[(int)led]; }
+            get { return leds[(int)led]; }
         }
 
 
@@ -64,7 +64,7 @@ namespace RobotCtrl
         /// <returns></returns>
         public Switch this[Switches swi]
         {
-            get { return this.switches[(int)swi]; }
+            get { return switches[(int)swi]; }
         }
         #endregion
 
