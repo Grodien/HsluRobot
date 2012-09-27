@@ -40,7 +40,12 @@ namespace RobotCtrl
             for (int i = 0; i < switches.Length; i++)
             {
                 switches[i] = new Switch((Switches)i);
+                switches[i].SwitchStateChanged += RobotConsoleSwitchStateChanged;
             }
+        }
+
+        void RobotConsoleSwitchStateChanged(object sender, SwitchEventArgs e) {
+            leds[(int) e.Swi].LedEnabled = e.SwitchEnabled;
         }
         #endregion
 

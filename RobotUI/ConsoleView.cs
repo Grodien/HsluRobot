@@ -9,6 +9,7 @@ namespace RobotUI
         public ConsoleView()
         {
             InitializeComponent();
+            RobotConsole = new RobotConsole();
         }
 
         private RobotConsole _robotConsole;
