@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,9 +20,17 @@ namespace RobotUI
 
         public string Index { 
             get { return lblIndex.Text; }
-            set { lblIndex.Text = value; }
+            private set { lblIndex.Text = value; }
         }
 
-        public Led Led { get; set; }
+        private Led _led;
+        public Led Led
+        {
+            get { return _led; }
+            set { 
+                _led = value;
+                Index = ((int) _led.LedEnum + 1).ToString(CultureInfo.InvariantCulture);
+            }
+        }
     }
 }

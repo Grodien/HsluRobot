@@ -28,7 +28,8 @@ namespace RobotCtrl
     {
 
         #region members
-        private Leds led;
+        public Leds LedEnum { get; private set; }
+
         private bool ledEnabled;
         #endregion
 
@@ -46,7 +47,7 @@ namespace RobotCtrl
         /// <param name="led"></param>
         public Led(Leds led)
         {
-            this.led = led;
+            LedEnum = led;
         }
         #endregion
 
@@ -79,7 +80,7 @@ namespace RobotCtrl
         {
             if (LedStateChanged != null)
             {
-                LedStateChanged(this, new LedEventArgs(this.led, this.ledEnabled));
+                LedStateChanged(this, new LedEventArgs(LedEnum, this.ledEnabled));
             }
         }
         #endregion
