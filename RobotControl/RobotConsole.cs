@@ -8,6 +8,7 @@
 using RobotControl.Input;
 using RobotControl.Output;
 using System;
+using RobotIO;
 
 namespace RobotControl
 {
