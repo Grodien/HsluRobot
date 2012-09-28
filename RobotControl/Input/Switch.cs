@@ -16,7 +16,7 @@ namespace RobotControl.Input
     {
         #region members
         private readonly Switches _switch;
-        private DigitalIn _digitalIn;
+        private readonly DigitalIn _digitalIn;
         private bool _oldState;
         #endregion
 
@@ -56,16 +56,6 @@ namespace RobotControl.Input
         #endregion
 
         #region properties
-        public DigitalIn DigitalIn
-        {
-            get { return _digitalIn; }
-            set { _digitalIn = value; }
-        }
-        public bool OldState
-        {
-            get { return _oldState; }
-            set { _oldState = value; }
-        }
         public bool SwitchEnabled {
             get { return _digitalIn[(int) _switch]; }
             set { _digitalIn[(int) _switch] = value; }

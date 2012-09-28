@@ -16,7 +16,7 @@ namespace RobotControl.Output
     {
         #region members
         public Leds LedEnum { get; private set; }
-        private DigitalOut _digitalOut;
+        private readonly DigitalOut _digitalOut;
 
         #endregion
 
