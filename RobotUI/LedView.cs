@@ -7,6 +7,8 @@ namespace RobotUI
 {
     public partial class LedView : UserControl
     {
+        delegate void onOn();
+
         public LedView()
         {
             InitializeComponent();
@@ -41,14 +43,22 @@ namespace RobotUI
             On = e.LedEnabled;
         }
 
+        private void SetLedImage() {
+            pbLedState.Image = _on ? Resource.LedOn : Resource.LedOff;
+        }
+
         private bool _on;
         public bool On
         {
             get { return _on; }
-            set
-            {
+            set {
                 _on = value;
-                pbLedState.Image = _on ? Resource.LedOn : Resource.LedOff;
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new onOn(SetLedImage));
+                } else {
+                    SetLedImage();
+                }
             }
         }
     }

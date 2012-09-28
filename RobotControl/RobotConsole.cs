@@ -34,15 +34,15 @@ namespace RobotControl
             {
                 _digitalIn = new DigitalInSim();
                 _digitalOut = new DigitalOutSim();
-            }
-            else
-            {
+            } else {
+                _digitalIn = new DigitalInHW(Constants.IOConsoleSWITCH);
+                _digitalOut = new DigitalOutHW(Constants.IOConsoleLED);
             }
 
             _leds = new Led[4];
             for (int i = 0; i < _leds.Length; i++)
             {
-                _leds[i] = new Led((Leds)i);
+                _leds[i] = new Led((Leds)i, _digitalOut);
             }
 
             _switches = new Switch[4];

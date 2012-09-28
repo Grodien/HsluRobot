@@ -6,6 +6,8 @@ namespace RobotUI
 {
     public partial class SwitchView : UserControl
     {
+        private delegate void onSwitchChange();
+
         public SwitchView()
         {
             InitializeComponent();
@@ -32,13 +34,21 @@ namespace RobotUI
             On = e.SwitchEnabled;
         }
 
+        private void SetSwitchImage() {
+            pbSwitchState.Image = _on ? Resource.SwitchOn : Resource.SwitchOff;
+        }
+
         private bool _on;
         public bool On
         {
             get { return _on; }
             set { 
                 _on = value;
-                pbSwitchState.Image = _on ? Resource.SwitchOn : Resource.SwitchOff;
+                if (this.InvokeRequired) {
+                    this.Invoke(new onSwitchChange(SetSwitchImage));
+                } else {
+                    SetSwitchImage();
+                }
             }
         }
 

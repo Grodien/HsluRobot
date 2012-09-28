@@ -16,8 +16,8 @@ namespace RobotControl.Output
     {
         #region members
         public Leds LedEnum { get; private set; }
+        private DigitalOut _digitalOut;
 
-        private bool _ledEnabled;
         #endregion
 
 
@@ -32,9 +32,13 @@ namespace RobotControl.Output
         /// </summary>
         /// <param name="digitalOut"></param>
         /// <param name="led"></param>
-        public Led(Leds led)
+        public Led(Leds led, DigitalOut digitalOut)
         {
+            if (digitalOut == null)
+                throw new ArgumentNullException("digitalOut");
+
             LedEnum = led;
+            _digitalOut = digitalOut;
         }
         #endregion
 
@@ -45,14 +49,10 @@ namespace RobotControl.Output
         /// </summary>
         public bool LedEnabled
         {
-            get { return _ledEnabled; }
-            set
-            {
-                if (value != _ledEnabled)
-                {
-                    _ledEnabled = value;
-                    OnLedStateChanged();
-                }
+            get { return _digitalOut[(int)LedEnum]; }
+            set {
+                _digitalOut[(int) LedEnum] = value;
+                OnLedStateChanged();
             }
         }
         #endregion
@@ -67,7 +67,7 @@ namespace RobotControl.Output
         {
             if (LedStateChanged != null)
             {
-                LedStateChanged(this, new LedEventArgs(LedEnum, _ledEnabled));
+                LedStateChanged(this, new LedEventArgs(LedEnum, LedEnabled));
             }
         }
         #endregion
