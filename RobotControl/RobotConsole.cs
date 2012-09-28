@@ -36,11 +36,11 @@ namespace RobotControl
             for (int i = 0; i < _switches.Length; i++)
             {
                 _switches[i] = new Switch((Switches)i);
-                _switches[i].SwitchStateChanged += RobotConsoleSwitchStateChanged;
+                _switches[i].SwitchStateChanged += SwitchStateChanged;
             }
         }
 
-        void RobotConsoleSwitchStateChanged(object sender, SwitchEventArgs e) {
+        private void SwitchStateChanged(object sender, SwitchEventArgs e) {
             _leds[(int) e.Swi].LedEnabled = e.SwitchEnabled;
         }
         #endregion

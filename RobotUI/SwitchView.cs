@@ -11,19 +11,23 @@ namespace RobotUI
             InitializeComponent();
         }
 
-
         private Switch _switch;
         public Switch Switch
         {
             get { return _switch; }
             set { 
+                // detach first
+                if (_switch != null)
+                    _switch.SwitchStateChanged -= SwitchStateChanged;
+
+                // Assign
                 _switch = value;
                 if (value != null)
-                    _switch.SwitchStateChanged += ValueSwitchStateChanged;
+                    _switch.SwitchStateChanged += SwitchStateChanged;
             }
         }
 
-        void ValueSwitchStateChanged(object sender, SwitchEventArgs e)
+        private void SwitchStateChanged(object sender, SwitchEventArgs e)
         {
             On = e.SwitchEnabled;
         }

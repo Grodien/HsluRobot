@@ -21,16 +21,22 @@ namespace RobotUI
         public Led Led
         {
             get { return _led; }
-            set { 
+            set {
+                // Detach first 
+                if (_led != null)
+                {
+                    _led.LedStateChanged -= LedStateChanged;
+                }
+                //Assign
                 _led = value;
                 if (value != null) {
                     Index = ((int)_led.LedEnum + 1).ToString(CultureInfo.InvariantCulture);
-                    value.LedStateChanged += ValueLedStateChanged;
+                    value.LedStateChanged += LedStateChanged;
                 }
             }
         }
 
-        void ValueLedStateChanged(object sender, LedEventArgs e)
+        private void LedStateChanged(object sender, LedEventArgs e)
         {
             On = e.LedEnabled;
         }
