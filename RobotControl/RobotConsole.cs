@@ -7,25 +7,38 @@
 
 using RobotControl.Input;
 using RobotControl.Output;
+using System;
 
 namespace RobotControl
 {
     /// <summary>
     /// Bildet die Konsole des Roboters ab, die aus den LED's und Schaltern besteht.
     /// </summary>
-    public class RobotConsole
+    public class RobotConsole : IDisposable
     {
         #region members
         private readonly Led[] _leds;
         private readonly Switch[] _switches;
+        private readonly DigitalIn _digitalIn;
+        private readonly DigitalOut _digitalOut;
         #endregion
 
         #region constructor & destructor
         /// <summary>
         /// Initialisiert die Roboter-Konsole mit den dazugehörigen LED's und Schalter.
         /// </summary>
-        public RobotConsole()
+        public RobotConsole(RunMode runMode)
         {
+            if (!Constants.IsWinCE) runMode = RunMode.Virtual;
+            if (runMode == RunMode.Virtual)
+            {
+                _digitalIn = new DigitalInSim();
+                _digitalOut = new DigitalOutSim();
+            }
+            else
+            {
+            }
+
             _leds = new Led[4];
             for (int i = 0; i < _leds.Length; i++)
             {
@@ -35,13 +48,8 @@ namespace RobotControl
             _switches = new Switch[4];
             for (int i = 0; i < _switches.Length; i++)
             {
-                _switches[i] = new Switch((Switches)i);
-                _switches[i].SwitchStateChanged += SwitchStateChanged;
+                _switches[i] = new Switch((Switches)i, _digitalIn);
             }
-        }
-
-        private void SwitchStateChanged(object sender, SwitchEventArgs e) {
-            _leds[(int) e.Swi].LedEnabled = e.SwitchEnabled;
         }
         #endregion
 
@@ -65,6 +73,12 @@ namespace RobotControl
         {
             get { return _switches[(int)swi]; }
         }
+
+        public void Dispose() {
+           _digitalIn.Dispose();
+           _digitalOut.Dispose();
+        }
+
         #endregion
     }
 }

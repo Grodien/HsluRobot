@@ -16,7 +16,8 @@ namespace RobotControl.Input
     {
         #region members
         private readonly Switches _switch;
-        private bool _switchEnabled;
+        private DigitalIn _digitalIn;
+        private bool _oldState;
         #endregion
 
         #region eventhandler
@@ -24,29 +25,50 @@ namespace RobotControl.Input
         #endregion
 
         #region constructor & destructor
+
         /// <summary>
-        /// Initialisiert den Schalter.
+        /// Initializes a new instance of the <see cref="Switch" /> class.
         /// </summary>
-        /// <param name="swi">der abzubildende Schalter</param>
-        public Switch(Switches swi)
+        /// <param name="swi">The swi.</param>
+        /// <param name="digitalIn">The digital in.</param>
+        /// <exception cref="System.ArgumentNullException"></exception>
+        public Switch(Switches swi, DigitalIn digitalIn)
         {
+            if (digitalIn == null)
+                throw new ArgumentNullException("digitalIn");
+
             _switch = swi;
-            _switchEnabled = false;
+            _digitalIn = digitalIn;
+            _digitalIn.DigitalInChanged += DigitalInChanged;
+            _oldState = false;
         }
+
+        private void DigitalInChanged(object sender, EventArgs e)
+        {
+            bool newState = SwitchEnabled;
+            if (_oldState != newState)
+            {
+                _oldState = newState;
+                OnSwitchStateChanged(new SwitchEventArgs(_switch, newState));
+            }
+        }
+
         #endregion
 
         #region properties
-        /// <summary>
-        /// Liefert bzw. setzt den Zustand des Schalters (ein-/ausgeschaltet)
-        /// </summary>
-        public bool SwitchEnabled
+        public DigitalIn DigitalIn
         {
-            get { return _switchEnabled; }
-            set
-            {
-                _switchEnabled = value;
-                OnSwitchStateChanged(new SwitchEventArgs(_switch, value));
-            }
+            get { return _digitalIn; }
+            set { _digitalIn = value; }
+        }
+        public bool OldState
+        {
+            get { return _oldState; }
+            set { _oldState = value; }
+        }
+        public bool SwitchEnabled {
+            get { return _digitalIn[(int) _switch]; }
+            set { _digitalIn[(int) _switch] = value; }
         }
         #endregion
 

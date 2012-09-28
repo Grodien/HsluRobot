@@ -54,9 +54,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
+    <Compile Include="Input\DigitalIn.cs" />
+    <Compile Include="Input\DigitalInSim.cs" />
     <Compile Include="Input\Switch.cs" />
     <Compile Include="Input\Switches.cs" />
     <Compile Include="Input\SwitchEventArgs.cs" />
+    <Compile Include="Output\DigitalOut.cs" />
+    <Compile Include="Output\DigitalOutSim.cs" />
     <Compile Include="Output\Led.cs" />
     <Compile Include="Output\LedEventArgs.cs" />
     <Compile Include="Output\Leds.cs" />
