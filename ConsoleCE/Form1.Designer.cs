@@ -31,6 +31,7 @@
         {
             this.mainMenu1 = new System.Windows.Forms.MainMenu();
             this.consoleView1 = new RobotUI.ConsoleView();
+            this.consoleView2 = new RobotUI.ConsoleView();
             this.SuspendLayout();
             // 
             // consoleView1
@@ -38,15 +39,26 @@
             this.consoleView1.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.consoleView1.Location = new System.Drawing.Point(3, 3);
             this.consoleView1.Name = "consoleView1";
+            this.consoleView1.RobotConsole = null;
             this.consoleView1.Size = new System.Drawing.Size(212, 49);
             this.consoleView1.TabIndex = 0;
+            // 
+            // consoleView2
+            // 
+            this.consoleView2.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.consoleView2.Location = new System.Drawing.Point(4, 62);
+            this.consoleView2.Name = "consoleView2";
+            this.consoleView2.RobotConsole = null;
+            this.consoleView2.Size = new System.Drawing.Size(212, 49);
+            this.consoleView2.TabIndex = 1;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
-            this.ClientSize = new System.Drawing.Size(219, 56);
+            this.ClientSize = new System.Drawing.Size(220, 118);
+            this.Controls.Add(this.consoleView2);
             this.Controls.Add(this.consoleView1);
             this.Menu = this.mainMenu1;
             this.Name = "Form1";
@@ -58,6 +70,7 @@
         #endregion
 
         private RobotUI.ConsoleView consoleView1;
+        private RobotUI.ConsoleView consoleView2;
     }
 }
 
