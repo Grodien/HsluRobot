@@ -4,16 +4,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2367809C-C1C0-46FF-9BA1-24D9B73DA2D8}</ProjectGuid>
+    <ProjectGuid>{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>RobotControl</RootNamespace>
-    <AssemblyName>RobotControl</AssemblyName>
+    <RootNamespace>RobotIO</RootNamespace>
+    <AssemblyName>RobotIO</AssemblyName>
     <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <PlatformFamilyName>WindowsCE</PlatformFamilyName>
     <PlatformID>E2BECB1F-8C8C-41ba-B736-9BE7D946A398</PlatformID>
     <OSVersion>5.0</OSVersion>
-    <DeployDirSuffix>RobotControl</DeployDirSuffix>
+    <DeployDirSuffix>RobotIO</DeployDirSuffix>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <NativePlatformName>Windows CE</NativePlatformName>
     <FormFactorID>
@@ -54,27 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
-    <Compile Include="Input\DigitalIn.cs" />
-    <Compile Include="Input\DigitalInHW.cs" />
-    <Compile Include="Input\DigitalInSim.cs" />
-    <Compile Include="Input\Switch.cs" />
-    <Compile Include="Input\Switches.cs" />
-    <Compile Include="Input\SwitchEventArgs.cs" />
-    <Compile Include="Output\DigitalOut.cs" />
-    <Compile Include="Output\DigitalOutHW.cs" />
-    <Compile Include="Output\DigitalOutSim.cs" />
-    <Compile Include="Output\Led.cs" />
-    <Compile Include="Output\LedEventArgs.cs" />
-    <Compile Include="Output\Leds.cs" />
+    <Compile Include="IOPortEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RobotConsole.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RobotIO\RobotIO.csproj">
-      <Project>{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}</Project>
-      <Name>RobotIO</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
