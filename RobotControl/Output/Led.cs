@@ -51,8 +51,10 @@ namespace RobotControl.Output
         {
             get { return _digitalOut[(int)LedEnum]; }
             set {
-                _digitalOut[(int) LedEnum] = value;
-                OnLedStateChanged();
+                if (LedEnabled != value) {
+                    _digitalOut[(int) LedEnum] = value;
+                    OnLedStateChanged(new LedEventArgs(LedEnum, value));
+                }
             }
         }
         #endregion
@@ -63,11 +65,11 @@ namespace RobotControl.Output
         /// Diese Methode informiert alle registrierten Eventhandler über den Zustandswechsel 
         /// (ein-/ausgeschaltet) der LED.
         /// </summary>
-        public void OnLedStateChanged()
+        public void OnLedStateChanged(LedEventArgs args)
         {
             if (LedStateChanged != null)
             {
-                LedStateChanged(this, new LedEventArgs(LedEnum, LedEnabled));
+                LedStateChanged(this, args);
             }
         }
         #endregion

@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using RobotIO;
 
 namespace RobotControl.Input
 {
-    class DigitalInHW : DigitalIn
+    public class DigitalInHW : DigitalIn
     {
         private readonly int _ioPort;
         private readonly Timer _pollTimer;
         private int _oldData;
-        private bool _isDisposed;
 
         public DigitalInHW(int ioPort) {
             _ioPort = ioPort;
@@ -29,12 +25,9 @@ namespace RobotControl.Input
             }
         }
         
-        public override void Dispose() {
-            if (_isDisposed)
-            {
-                _isDisposed = true;
-                _pollTimer.Dispose();
-            }   
+        protected override void OnDispose() {
+            _pollTimer.Dispose();
+            base.OnDispose();
         }
 
         public override int Data

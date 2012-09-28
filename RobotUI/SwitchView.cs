@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using RobotControl.Input;
 using RobotUI.Properties;
 
@@ -6,11 +7,10 @@ namespace RobotUI
 {
     public partial class SwitchView : UserControl
     {
-        private delegate void onSwitchChange();
-
         public SwitchView()
         {
             InitializeComponent();
+            _setSwitchImageAction = SetSwitchImage;
         }
 
         private Switch _switch;
@@ -34,8 +34,13 @@ namespace RobotUI
             On = e.SwitchEnabled;
         }
 
+        private readonly Action _setSwitchImageAction;
         private void SetSwitchImage() {
-            pbSwitchState.Image = _on ? Resource.SwitchOn : Resource.SwitchOff;
+            if (InvokeRequired) {
+                Invoke(_setSwitchImageAction);
+            } else {
+                pbSwitchState.Image = _on ? Resource.SwitchOn : Resource.SwitchOff;
+            }
         }
 
         private bool _on;
@@ -44,11 +49,7 @@ namespace RobotUI
             get { return _on; }
             set { 
                 _on = value;
-                if (this.InvokeRequired) {
-                    this.Invoke(new onSwitchChange(SetSwitchImage));
-                } else {
-                    SetSwitchImage();
-                }
+                SetSwitchImage();
             }
         }
 

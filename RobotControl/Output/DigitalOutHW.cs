@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 using RobotIO;
 
 namespace RobotControl.Output
@@ -12,9 +9,6 @@ namespace RobotControl.Output
 
         public DigitalOutHW(int ioPort) {
             _ioPort = ioPort;
-        }
-
-        public override void Dispose() {
         }
 
         public override int Data {

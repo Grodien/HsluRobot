@@ -27,10 +27,9 @@ namespace RobotControl
         /// <summary>
         /// Initialisiert die Roboter-Konsole mit den dazugehörigen LED's und Schalter.
         /// </summary>
-        public RobotConsole(RunMode runMode)
+        public RobotConsole()
         {
-            if (!Constants.IsWinCE) runMode = RunMode.Virtual;
-            if (runMode == RunMode.Virtual)
+            if (Constants.IsWinCE == false)
             {
                 _digitalIn = new DigitalInSim();
                 _digitalOut = new DigitalOutSim();

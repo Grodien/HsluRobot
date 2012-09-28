@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using System.Windows.Forms;
 using RobotControl.Output;
 using RobotUI.Properties;
@@ -7,11 +8,10 @@ namespace RobotUI
 {
     public partial class LedView : UserControl
     {
-        delegate void onOn();
-
         public LedView()
         {
             InitializeComponent();
+            _setLedImageAction = SetLedImage;
         }
 
         public string Index { 
@@ -20,6 +20,7 @@ namespace RobotUI
         }
 
         private Led _led;
+
         public Led Led
         {
             get { return _led; }
@@ -43,8 +44,14 @@ namespace RobotUI
             On = e.LedEnabled;
         }
 
+        private readonly Action _setLedImageAction;
+
         private void SetLedImage() {
-            pbLedState.Image = _on ? Resource.LedOn : Resource.LedOff;
+            if (InvokeRequired) {
+                Invoke(_setLedImageAction);
+            } else {
+                pbLedState.Image = _on ? Resource.LedOn : Resource.LedOff;
+            }
         }
 
         private bool _on;
@@ -53,12 +60,7 @@ namespace RobotUI
             get { return _on; }
             set {
                 _on = value;
-                if (this.InvokeRequired)
-                {
-                    this.Invoke(new onOn(SetLedImage));
-                } else {
-                    SetLedImage();
-                }
+                SetLedImage();
             }
         }
     }

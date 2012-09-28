@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RobotControl.Output
 {
     public abstract class DigitalOut : IDisposable
     {
+        private bool _isDisposed;
+
         public event EventHandler DigitalOutChanged;
-        public abstract void Dispose();
         public abstract int Data { get; set; }
+
         protected void OnDigitalOutChanged(EventArgs e)
         {
             if (DigitalOutChanged != null)
@@ -17,6 +16,7 @@ namespace RobotControl.Output
                 DigitalOutChanged(this, e);
             }
         }
+
         public virtual bool this[int bit]
         {
             get { return (Data & (1 << bit)) != 0; }
@@ -27,6 +27,18 @@ namespace RobotControl.Output
                 else
                     Data &= ~(1 << bit);
             }
+        }
+
+        protected virtual void OnDispose()
+        {
+            _isDisposed = true;
+        }
+
+        public void Dispose()
+        {
+            if (_isDisposed == false)
+                OnDispose();
+            GC.SuppressFinalize(this);
         }
     }
 }

@@ -9,11 +9,8 @@ using System;
 
 namespace RobotControl
 {
-    public enum RunMode { Virtual, Real };
-
     public static class Constants
     {
-
         public static bool IsWinCE { get { return Environment.OSVersion.Platform == PlatformID.WinCE; } }
 
         // Roboter-Kennzahlen
