@@ -7,6 +7,7 @@
 
 using System;
 using System.Threading;
+using RobotIO;
 
 namespace RobotControl.Engine
 {
@@ -14,13 +15,15 @@ namespace RobotControl.Engine
     {
 
         #region members
-        private float acceleration;     // Beschleunigung [m/s^2]
-        private float nominalSpeed;     // eingestellte Geschwindigkeit [m/s]
-        private float currentSpeed;     // aktuelle Geschwindigkeit [m/s]
+        private float _acceleration;     // Beschleunigung [m/s^2]
+        private float _nominalSpeed;     // eingestellte Geschwindigkeit [m/s]
+        private float _currentSpeed;     // aktuelle Geschwindigkeit [m/s]
 
-        private Thread thread;
-        private int ticks;
-        private int status;
+        private readonly Thread _thread;
+        private int _ticks;
+        private int _status;
+
+        private volatile bool _stopThread;
         #endregion
 
 
@@ -33,10 +36,8 @@ namespace RobotControl.Engine
         {
             Reset();
 
-            this.thread = new Thread(Run);
-            this.thread.IsBackground = true;
-            this.thread.Priority = ThreadPriority.AboveNormal;
-            this.thread.Start();
+            this._thread = new Thread(Run) {IsBackground = true, Priority = ThreadPriority.AboveNormal};
+            this._thread.Start();
         }
         #endregion
 
@@ -47,8 +48,8 @@ namespace RobotControl.Engine
         /// </summary>
         public override float Speed
         {
-            get { return this.nominalSpeed; }
-            set { this.nominalSpeed = value; }
+            get { return this._nominalSpeed; }
+            set { this._nominalSpeed = value; }
         }
 
 
@@ -57,7 +58,7 @@ namespace RobotControl.Engine
         /// </summary>
         public override float CurrentSpeed
         {
-            get { return this.currentSpeed; }
+            get { return this._currentSpeed; }
         }
 
 
@@ -66,8 +67,8 @@ namespace RobotControl.Engine
         /// </summary>
         public override float Acceleration
         {
-            get { return this.acceleration; }
-            set { this.acceleration = value; }
+            get { return this._acceleration; }
+            set { this._acceleration = value; }
         }
 
 
@@ -76,7 +77,7 @@ namespace RobotControl.Engine
         /// </summary>
         public override int Status
         {
-            get { return status; }
+            get { return _status; }
         }
 
 
@@ -85,7 +86,7 @@ namespace RobotControl.Engine
         /// </summary>
         public override int Ticks
         {
-            get { return this.ticks; }
+            get { return this._ticks; }
         }
         #endregion
 
@@ -96,7 +97,7 @@ namespace RobotControl.Engine
         /// </summary>
         public override void Go()
         {
-            this.status = 0x00;
+            this._status = 0x00;
         }
 
         /// <summary>
@@ -104,8 +105,8 @@ namespace RobotControl.Engine
         /// </summary>
         public override void Stop()
         {
-            this.status = 0x80;
-            this.currentSpeed = 0;
+            this._status = 0x80;
+            this._currentSpeed = 0;
         }
 
         /// <summary>
@@ -113,10 +114,10 @@ namespace RobotControl.Engine
         /// </summary>
         public override void Reset()
         {
-            this.ticks = 0;
-            this.nominalSpeed = 0;
-            this.acceleration = 0.25f;
-            this.status = 0x80;
+            this._ticks = 0;
+            this._nominalSpeed = 0;
+            this._acceleration = 0.25f;
+            this._status = 0x80;
         }
 
 
@@ -125,7 +126,7 @@ namespace RobotControl.Engine
         /// </summary>
         public override void ResetTicks()
         {
-            this.ticks = 0;
+            this._ticks = 0;
         }
 
 
@@ -151,31 +152,32 @@ namespace RobotControl.Engine
             int idt;
             float dt;
             int time = Environment.TickCount;
-            while (true)
+            while (!_stopThread)
             {
                 idt = Environment.TickCount - time; // = Zeitdiff. in Millisekunden
                 time += idt;
                 dt = idt / 1000f; // = Zeitdiff. in Sekunden
                 
-                if (!Stopped)
-                {
-                    // TODO Ticks hier berechnen...
-                    // ticks += ...
+                if (!Stopped) {
+                    _ticks += (int)(dt * Constants.TicksPerRevolution);
 
-                    if (nominalSpeed >= currentSpeed)
-                    {
+                    if (_nominalSpeed >= _currentSpeed) {
                         // aktuell zu langsam => beschleunigen
-                        currentSpeed = Math.Min(nominalSpeed, currentSpeed + dt * acceleration);
-                    }
-                    else
-                    {
+                        _currentSpeed = Math.Min(_nominalSpeed, _currentSpeed + dt * _acceleration);
+                    } else {
                         // aktuell zu schnell => bremsen
-                        currentSpeed = Math.Max(nominalSpeed, currentSpeed - dt * acceleration);
+                        _currentSpeed = Math.Max(_nominalSpeed, _currentSpeed - dt * _acceleration);
                     }
                 }
                 Thread.Sleep(1);
             }
         }
+        public override void Dispose() {
+            _stopThread = true;
+            _thread.Join();
+            base.Dispose();
+        }       
+
         #endregion
 
     }

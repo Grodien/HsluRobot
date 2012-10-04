@@ -9,6 +9,7 @@ using System;
 using System.Reflection;
 using System.IO;
 using System.Windows.Forms;
+using System.Runtime.InteropServices;
 
 namespace RobotIO
 {
@@ -19,7 +20,7 @@ namespace RobotIO
     public static class IOPort
     {
 
-#if USE_EXTERNAL_DLL
+#if !USE_EXTERNAL_DLL
 
         #region members
         private static MethodInfo writeMethod;

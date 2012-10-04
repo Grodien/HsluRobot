@@ -7,25 +7,27 @@ namespace MotorCE
 {
     public partial class Form1 : Form
     {
-        private MotorCtrl _leftMotorControl, _rightMotorControl;
-        private DriveCtrl _driveControl;
+        private readonly MotorCtrl _leftMotorControl;
+        private readonly MotorCtrl _rightMotorControl;
+        private readonly DriveCtrl _driveControl;
 
         public Form1()
         {
             InitializeComponent();
             if (Constants.IsWinCE) {
+                _driveControl = new DriveCtrlHW(Constants.IODriveCtrl);
                 _leftMotorControl = new MotorCtrlHW(Constants.IOMotorCtrlLeft);
                 _rightMotorControl = new MotorCtrlHW(Constants.IOMotorCtrlRight);
-                _driveControl = new DriveCtrlHW(Constants.IODriveCtrl);
             } else {
+                _driveControl = new DriveCtrlSim();
                 _leftMotorControl = new MotorCtrlSim();
                 _rightMotorControl = new MotorCtrlSim();
-                _driveControl = new DriveCtrlSim();
             }
 
             leftMotorCtrlView.MotorCtrl = _leftMotorControl;
             rightMotorCtrlView.MotorCtrl = _rightMotorControl;
             driveCtrlView.DriveCtrl = _driveControl;
+
         }
     }
 }

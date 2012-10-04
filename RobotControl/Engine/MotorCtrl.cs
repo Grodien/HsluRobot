@@ -12,7 +12,6 @@ namespace RobotControl.Engine
 {
     public abstract class MotorCtrl : IDisposable
     {
-
         #region constructor & destructor
         /// <summary>
         /// Dispose Methode wird in der abstrakten Klasse nicht gebraucht, kann aber überschrieben werden.
