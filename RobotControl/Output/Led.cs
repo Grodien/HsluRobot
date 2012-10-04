@@ -51,10 +51,10 @@ namespace RobotControl.Output
         {
             get { return _digitalOut[(int)LedEnum]; }
             set {
-                if (LedEnabled != value) {
+                //if (LedEnabled != value) {
                     _digitalOut[(int) LedEnum] = value;
                     OnLedStateChanged(new LedEventArgs(LedEnum, value));
-                }
+                //}
             }
         }
         #endregion

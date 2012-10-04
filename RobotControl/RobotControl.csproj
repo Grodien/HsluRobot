@@ -54,6 +54,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Engine\DriveCtrl.cs" />
+    <Compile Include="Engine\DriveCtrlHW.cs" />
+    <Compile Include="Engine\DriveCtrlSim.cs" />
+    <Compile Include="Engine\MotorCtrl.cs" />
+    <Compile Include="Engine\MotorCtrlHW.cs" />
+    <Compile Include="Engine\MotorCtrlSim.cs" />
     <Compile Include="Input\DigitalIn.cs" />
     <Compile Include="Input\DigitalInHW.cs" />
     <Compile Include="Input\DigitalInSim.cs" />

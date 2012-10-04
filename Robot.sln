@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleWin7", "ConsoleWin7\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotIO", "RobotIO\RobotIO.csproj", "{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorCE", "MotorCE\MotorCE.csproj", "{B62C8564-057A-4AFC-80BF-04257357F8BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MotorWin7", "MotorWin7\MotorWin7.csproj", "{F6CDFA81-CBE9-448B-8B53-25AEBBE44202}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,16 @@ Global
 		{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B62C8564-057A-4AFC-80BF-04257357F8BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B62C8564-057A-4AFC-80BF-04257357F8BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B62C8564-057A-4AFC-80BF-04257357F8BE}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B62C8564-057A-4AFC-80BF-04257357F8BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B62C8564-057A-4AFC-80BF-04257357F8BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B62C8564-057A-4AFC-80BF-04257357F8BE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F6CDFA81-CBE9-448B-8B53-25AEBBE44202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CDFA81-CBE9-448B-8B53-25AEBBE44202}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CDFA81-CBE9-448B-8B53-25AEBBE44202}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6CDFA81-CBE9-448B-8B53-25AEBBE44202}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
