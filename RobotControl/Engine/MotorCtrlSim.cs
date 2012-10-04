@@ -159,7 +159,7 @@ namespace RobotControl.Engine
                 dt = idt / 1000f; // = Zeitdiff. in Sekunden
                 
                 if (!Stopped) {
-                    _ticks += (int)(dt * Constants.TicksPerRevolution);
+                    _ticks += (int)(dt * _currentSpeed / Constants.MeterPerTick);
 
                     if (_nominalSpeed >= _currentSpeed) {
                         // aktuell zu langsam => beschleunigen
