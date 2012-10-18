@@ -4,13 +4,8 @@
 // Repository:
 //    $Id: DriveCtrlSim.cs 735 2011-10-13 09:16:14Z zajost $
 //------------------------------------------------------------------------------
-using System;
-using System.Linq;
-using System.Collections.Generic;
-using System.Text;
-using RobotControl.Engine;
 
-namespace RobotCtrl
+namespace RobotControl.Engine
 {
     public class DriveCtrlSim : DriveCtrl
     {

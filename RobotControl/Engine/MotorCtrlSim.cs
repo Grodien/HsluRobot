@@ -176,8 +176,12 @@ namespace RobotControl.Engine
             _stopThread = true;
             _thread.Join();
             base.Dispose();
-        }       
+        }
 
+        ~MotorCtrlSim()
+        {
+            Dispose();
+        }
         #endregion
 
     }
