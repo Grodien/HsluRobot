@@ -1,11 +1,14 @@
-﻿namespace RobotControl.Drive
+﻿using RobotIO;
+using System;
+
+namespace RobotControl.Drive
 {
   public class TrackTurn : Track
   {
     public TrackTurn(float angle, float speed, float acceleration)
       : base(speed, acceleration)
     {
-      Length = 1;
+      Length = (float)(Constants.AxleLength * Math.PI * (Math.Abs(angle) * (Math.PI / 180f)));
       Reverse = angle > 0;
     }
 
@@ -13,13 +16,13 @@
     {
       if (Reverse)
       {
-        leftSpeed = newVelocity * -1;
+        leftSpeed = -newVelocity;
         rightSpeed = newVelocity;
       }
       else
       {
         leftSpeed = newVelocity;
-        rightSpeed = newVelocity * -1;
+        rightSpeed = -newVelocity;
       }
     }
   }
