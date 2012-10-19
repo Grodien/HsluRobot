@@ -13,7 +13,7 @@ namespace RobotControl.Drive
 
     protected override void OnIncrementalStep(float timeInterval, float newVelocity, out float leftSpeed, out float rightSpeed)
     {
-      leftSpeed = newVelocity;
+      leftSpeed = -newVelocity;
       rightSpeed = newVelocity;
     }
   }

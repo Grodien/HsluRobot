@@ -9,7 +9,16 @@
 
     protected override void OnIncrementalStep(float timeInterval, float newVelocity, out float leftSpeed, out float rightSpeed)
     {
-      throw new System.NotImplementedException();
+      if (Reverse)
+      {
+        rightSpeed = -newVelocity * Ratio;
+        leftSpeed = newVelocity;
+      }
+      else
+      {
+        rightSpeed = (newVelocity * Ratio);
+        leftSpeed = -newVelocity;
+      }
     }
   }
 }

@@ -39,9 +39,9 @@ namespace RobotControl.Drive
       // Antrieb initialisieren
       if (Constants.IsWinCE)
       {
-        DriveCtrl = new DriveCtrlHW(Constants.IODriveCtrl);
-        MotorCtrlLeft = new MotorCtrlHW(Constants.IOMotorCtrlLeft);
-        MotorCtrlRight = new MotorCtrlHW(Constants.IOMotorCtrlRight);
+          DriveCtrl = new DriveCtrlHW(Constants.IODriveCtrl);
+          MotorCtrlLeft = new MotorCtrlHW(Constants.IOMotorCtrlLeft);
+          MotorCtrlRight = new MotorCtrlHW(Constants.IOMotorCtrlRight);
       }
       else
       {
@@ -51,6 +51,7 @@ namespace RobotControl.Drive
       }
 
       // Beschleunigung festlegen
+      DriveCtrl.Power = true;
       MotorCtrlLeft.Acceleration = 10f;
       MotorCtrlRight.Acceleration = 10f;
 

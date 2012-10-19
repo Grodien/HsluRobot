@@ -61,6 +61,11 @@
             0,
             0,
             0});
+      this.UPLength.Minimum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            -2147483648});
       this.UPLength.Name = "UPLength";
       this.UPLength.Size = new System.Drawing.Size(100, 24);
       this.UPLength.TabIndex = 2;

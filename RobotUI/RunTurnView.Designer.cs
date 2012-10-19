@@ -51,7 +51,7 @@
       // UPAngle
       // 
       this.UPAngle.Increment = new decimal(new int[] {
-            100,
+            10,
             0,
             0,
             0});

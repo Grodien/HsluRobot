@@ -20,6 +20,24 @@ namespace DriveCE
 
       runLineView1.StartClicked += RunLineView1OnStartClicked;
       runTurnView1.StartClicked += RunTurnView1OnStartClicked;
+      runArcView1.StartClicked += RunArcView1OnStartClicked;
+    }
+
+    private void RunArcView1OnStartClicked(object sender, EventArgs eventArgs) {
+
+      if (runArcView1.radioRight.Checked) {
+        driveView1.Drive.RunArcRight(
+        ConvertDecimalMMToFloatM(runArcView1.UPRadius.Value),
+        (float)runArcView1.UPAngle.Value,
+        ConvertDecimalMMToFloatM(commonRunParameters1.UPSpeed.Value),
+        ConvertDecimalMMToFloatM(commonRunParameters1.UPAcceleration.Value));
+      } else {
+        driveView1.Drive.RunArcLeft(
+        ConvertDecimalMMToFloatM(runArcView1.UPRadius.Value),
+        (float)runArcView1.UPAngle.Value,
+        ConvertDecimalMMToFloatM(commonRunParameters1.UPSpeed.Value),
+        ConvertDecimalMMToFloatM(commonRunParameters1.UPAcceleration.Value));
+      }
     }
 
     private void RunTurnView1OnStartClicked(object sender, EventArgs eventArgs)
