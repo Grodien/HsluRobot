@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace RobotControl
 {
@@ -22,11 +23,19 @@ namespace RobotControl
     /// </value>
     public RobotConsole RobotConsole { get; private set; }
 
+    /// <summary>
+    /// Gets or sets the color.
+    /// </summary>
+    /// <value>
+    /// The color.
+    /// </value>
+    public Color Color { get; set; }
+
     public Robot()
     {
       Drive = new Drive.Drive();
       RobotConsole = new RobotConsole();
-
+      Color = Color.Red;
     }
 
     public void Dispose()

@@ -122,6 +122,13 @@
     <Compile Include="SwitchView.Designer.cs">
       <DependentUpon>SwitchView.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewPort.cs" />
+    <Compile Include="WorldView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WorldView.designer.cs">
+      <DependentUpon>WorldView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CommonRunParameters.resx">
@@ -157,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SwitchView.resx">
       <DependentUpon>SwitchView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WorldView.resx">
+      <DependentUpon>WorldView.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

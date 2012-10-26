@@ -19,6 +19,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveWin7", "DriveWin7\Driv
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriveCE", "DriveCE\DriveCE.csproj", "{9835A26B-158B-4F3A-8B89-2E66E8BD1045}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldCE", "WorldCE\WorldCE.csproj", "{37A9E9E1-B07E-4705-8562-5F3B2CB76527}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorldWin7", "WorldWin7\WorldWin7.csproj", "{06F8BB43-3839-428A-A78E-A2C3FC54FD63}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,16 @@ Global
 		{9835A26B-158B-4F3A-8B89-2E66E8BD1045}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9835A26B-158B-4F3A-8B89-2E66E8BD1045}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9835A26B-158B-4F3A-8B89-2E66E8BD1045}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{37A9E9E1-B07E-4705-8562-5F3B2CB76527}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37A9E9E1-B07E-4705-8562-5F3B2CB76527}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37A9E9E1-B07E-4705-8562-5F3B2CB76527}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{37A9E9E1-B07E-4705-8562-5F3B2CB76527}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37A9E9E1-B07E-4705-8562-5F3B2CB76527}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37A9E9E1-B07E-4705-8562-5F3B2CB76527}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{06F8BB43-3839-428A-A78E-A2C3FC54FD63}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06F8BB43-3839-428A-A78E-A2C3FC54FD63}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06F8BB43-3839-428A-A78E-A2C3FC54FD63}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06F8BB43-3839-428A-A78E-A2C3FC54FD63}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
