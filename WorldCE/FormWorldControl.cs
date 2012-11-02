@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using RobotControl;
+using RobotIO;
 using RobotUI;
 
 namespace WorldCE
@@ -13,10 +14,16 @@ namespace WorldCE
       InitializeComponent();
 
       World.Robot = new Robot();
+
+      if (!Constants.IsWinCE)
+      {
+        //World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap1, -1.25f, 1.25f, -2.75f, -.25f);
+        World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap1, -3,3,-1,5);
+      }
       
       // WorldView erstellen und anzeigen
       FormWorldView fww = new FormWorldView();
-      fww.ViewPort = new ViewPort(-1.3, 1.3, -1.3, 1.3);
+      fww.ViewPort = new ViewPort(-3,3,-1,5);
       
       fww.Show();
 

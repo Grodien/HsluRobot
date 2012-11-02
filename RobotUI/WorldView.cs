@@ -22,9 +22,9 @@ namespace RobotUI
     private readonly Brush _fontBrush;
     private readonly Pen _penGrid2;
     private SolidBrush _brushRobot;
-    private Pen _penAngle;
-    private Pen _penGrid1;
-    private Pen _penRadar;
+    private readonly Pen _penAngle;
+    private readonly Pen _penGrid1;
+    private readonly Pen _penRadar;
     private Bitmap _plot;
     private ViewPort _viewPort;
 
@@ -33,8 +33,8 @@ namespace RobotUI
     {
       _penGrid1 = new Pen(Color.Gray, 3);
       _penGrid2 = new Pen(Color.Gray, 1);
-      _penAngle = new Pen(Color.Black, 7);
-      _penRadar = new Pen(Color.Green, 9);
+      _penAngle = new Pen(Color.Black, 6);
+      _penRadar = new Pen(Color.Green, 6);
       _font = new Font(FontFamily.GenericSerif, 8, FontStyle.Regular);
       _fontBrush = new SolidBrush(Color.Black);
       _brushRobot = new SolidBrush(Color.Gray);
@@ -106,7 +106,7 @@ namespace RobotUI
     /// <returns>die y-Position im WorldView-Koordinatensystem in Pixel</returns>
     private int YtoScreen(double y)
     {
-      return HeightToScreen((float) (y - _viewPort.yMin));
+      return Height - HeightToScreen((float)(y - _viewPort.yMin));
     }
 
     /// <summary>
@@ -161,10 +161,26 @@ namespace RobotUI
         // Hintergrund löschen
         g.Clear(Color.White);
 
+        ObstacleMap obstMap = World.ObstacleMap;
+        if (World.ObstacleMap != null)
+        {
+          Bitmap bmp = obstMap.Image;
+          RectangleF area = obstMap.Area;
+          int rx1 = XtoScreen(area.Left);
+          int ry1 = YtoScreen(area.Bottom);
+          int rx2 = XtoScreen(area.Right);
+          int ry2 = YtoScreen(area.Top);
+          g.DrawImage(
+              World.ObstacleMap.Image,
+              new Rectangle(rx1, ry1, rx2 - rx1, ry2 - ry1),
+              new Rectangle(0, 0, bmp.Width, bmp.Height),
+              GraphicsUnit.Pixel);
+        }
+
         #region Koordinaten-Netz zeichnen
         // Vertikale Linien die >viewPort.xMin bzw. <viewPort.xMax sind zeichnen...
-        double y = _viewPort.yMax - (_viewPort.yMax%0.5);
-        for (; y > _viewPort.yMin; y -= .5d)
+        double y = _viewPort.yMin - (_viewPort.yMin%0.5);
+        for (; y < _viewPort.yMax; y += .5d)
         {
           int yScreen = YtoScreen(y);
           g.DrawLine((y == 0d ? _penGrid1 : _penGrid2), 0, yScreen, Width, yScreen);
@@ -188,13 +204,29 @@ namespace RobotUI
           #region Roboter zeichnen
 
           var pos = robot.Drive.Position;
-          g.FillEllipse(BrushRobot, XtoScreen(pos.X - .07f), YtoScreen(pos.Y - .07f), WidthToScreen(.14f), HeightToScreen(.14f));
+          double phi = pos.Angle / 180 * Math.PI;
+
+          // Roboter.Radar
+          PositionInfo radarOffset = robot.Radar.AntennaPosition;
+          PositionInfo radarPos = new PositionInfo(
+            pos.X + radarOffset.X * (float)Math.Cos(phi) - radarOffset.Y * (float)Math.Sin(phi),
+            pos.Y + radarOffset.X * (float)Math.Sin(phi) + radarOffset.Y * (float)Math.Cos(phi),
+            (pos.Angle + radarOffset.Angle) % 360);
+          double radarPhi = radarPos.Angle / 180.0 * Math.PI;
+          double distance = robot.Radar.Distance;
+
+          // Radarstrahl zeichnen...
+          g.DrawLine(_penRadar, XtoScreen(radarPos.X), YtoScreen(radarPos.Y),
+                     XtoScreen(radarPos.X + distance * Math.Cos(radarPhi)),
+                     YtoScreen(radarPos.Y + distance * Math.Sin(radarPhi)));
+
+          g.FillEllipse(BrushRobot, XtoScreen(pos.X - .07f), YtoScreen(pos.Y + .07f), WidthToScreen(.14f), HeightToScreen(.14f));
 
           int xScreen = XtoScreen(pos.X);
           int yScreen = YtoScreen(pos.Y);
           g.DrawLine(_penAngle, xScreen, yScreen,
-            xScreen + WidthToScreen((float)(.07f * Math.Cos(pos.Angle / 180 * Math.PI))),
-            yScreen + HeightToScreen((float)(.07f * Math.Sin(pos.Angle / 180 * Math.PI))));
+            xScreen + WidthToScreen((float)(.07f * Math.Cos(phi))),
+            yScreen + HeightToScreen((float)(-.07f * Math.Sin(phi))));
 
           #endregion
         }

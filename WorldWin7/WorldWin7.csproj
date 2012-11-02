@@ -100,6 +100,10 @@
       <Project>{2367809C-C1C0-46FF-9BA1-24D9B73DA2D8}</Project>
       <Name>RobotControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RobotIO\RobotIO.csproj">
+      <Project>{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}</Project>
+      <Name>RobotIO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RobotUI\RobotUI.csproj">
       <Project>{5703687F-88F2-4A96-A96A-11303F42CB37}</Project>
       <Name>RobotUI</Name>

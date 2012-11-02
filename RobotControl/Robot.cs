@@ -31,10 +31,24 @@ namespace RobotControl
     /// </value>
     public Color Color { get; set; }
 
+    /// <summary>
+    /// Gets or sets the radar.
+    /// </summary>
+    /// <value>
+    /// The radar.
+    /// </value>
+    public Radar.Radar Radar { get; private set; }
+
+    public PositionInfo Position
+    {
+      get { return Drive.Position; }
+    }
+
     public Robot()
     {
       Drive = new Drive.Drive();
       RobotConsole = new RobotConsole();
+      Radar = new Radar.Radar();
       Color = Color.Red;
     }
 
