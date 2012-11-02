@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using RobotControl;
+using RobotControl.DrivePatterns;
 using RobotControl.Input;
 using RobotControl.Output;
 using RobotIO;
@@ -58,7 +59,8 @@ namespace Testat1CE
 
       if (switchEventArgs.SwitchEnabled)
       {
-        
+        FindSpaceAndPark pattern = new FindSpaceAndPark();
+        pattern.Start();
       }
     }
   }
