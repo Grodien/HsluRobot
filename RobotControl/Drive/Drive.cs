@@ -333,6 +333,11 @@ namespace RobotControl.Drive
         {
           if ((_actualTrack.Done) || ((_halt && (velocity == 0))))
           {
+            lock (_tracksToRun)
+            {
+              _tracksToRun.Remove(_actualTrack);
+            }
+            OnTrackFinished();
             _actualTrack = null;
             _halt = false;
           }
