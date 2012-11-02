@@ -27,24 +27,24 @@ namespace RobotControl.DrivePatterns
           RunTurn(10,1,1);
         }
 
-        RunLine(2.5f, 1, 1);
+        RunLine(1.25f, 1, 1);
 
         RunTurn(-(90 - robot.Position.Angle), 1, 1);
 
-        RunLine(robot.Radar.Distance - 0.4f, 1, 1);
+        RunLine(robot.Radar.Distance - 0.3f, 1, 1);
 
         RunTurn(-90, 1, 1);
 
-        if (robot.Radar.Distance > 0.45f) {
+        if (robot.Radar.Distance > 0.35f) {
           while (true) {
-            RunLine(1, 1, 1);
+            RunLine(0.5f, 1, 1);
 
             RunTurn(90, 1, 1);
 
-            if (robot.Radar.Distance < 0.45f) {
+            if (robot.Radar.Distance < 0.35f) {
               RunTurn(-90, 1, 1);
             } else {
-              RunLine(robot.Radar.Distance- 0.4f, 1, 1);
+              RunLine(robot.Radar.Distance- 0.3f, 1, 1);
               break;
             }
           }
