@@ -189,7 +189,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\ObstacleMap2.png" />
     <Content Include="Resources\ObstacleMap1.png" />
+    <None Include="Resources\ObstacleMap3.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

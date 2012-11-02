@@ -81,6 +81,20 @@ namespace RobotUI.Properties {
             }
         }
         
+        public static System.Drawing.Bitmap ObstacleMap2 {
+            get {
+                object obj = ResourceManager.GetObject("ObstacleMap2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        public static System.Drawing.Bitmap ObstacleMap3 {
+            get {
+                object obj = ResourceManager.GetObject("ObstacleMap3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         public static System.Drawing.Bitmap SwitchOff {
             get {
                 object obj = ResourceManager.GetObject("SwitchOff", resourceCulture);

@@ -49,7 +49,7 @@ namespace RobotUI
 
         private void buttonReset_Click(object sender, EventArgs e)
         {
-            Drive.Position = new PositionInfo(0, 0, 0);
+            Drive.Position = new PositionInfo(0, 0, 90);
         }
     }
 }

@@ -18,21 +18,28 @@ namespace Testat1CE
 {
   public partial class FormWorldControl : Form
   {
+    private const float xMin = -1.25f;
+    private const float xMax = 1.25f;
+    private const float yMin = -0.25f;
+    private const float yMax = 2.25f;
+
     public FormWorldControl()
     {
       InitializeComponent();
-
+      
       World.Robot = new Robot();
 
       if (!Constants.IsWinCE)
       {
-        //World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap1, -1.25f, 1.25f, -2.75f, -.25f);
-        World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap1, -1.25f, 1.25f, -0.25f, 2.25f);
+        upDownMap.ValueChanged += upDownMap_ValueChanged;
+        upDownMap_ValueChanged(null, null);
+        upDownMap.Visible = true;
+        label1.Visible = true;
       }
 
       // WorldView erstellen und anzeigen
       FormWorldView fww = new FormWorldView();
-      fww.ViewPort = new ViewPort(-1.25, 1.25, -0.25, 2.25);
+      fww.ViewPort = new ViewPort(xMin, xMax, yMin, yMax);
 
       fww.Show();
 
@@ -59,8 +66,24 @@ namespace Testat1CE
 
       if (switchEventArgs.SwitchEnabled)
       {
-        FindSpaceAndPark pattern = new FindSpaceAndPark();
+        FindSpaceAndParkPattern pattern = new FindSpaceAndParkPattern((float)commonRunParameters1.UPSpeed.Value/1000f, (float)commonRunParameters1.UPAcceleration.Value/1000f);
         pattern.Start();
+      }
+    }
+
+    private void upDownMap_ValueChanged(object sender, EventArgs e)
+    {
+      switch ((int)upDownMap.Value)
+      {
+        case 1:
+          World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap1, xMin, xMax, yMin, yMax);
+          break;
+        case 2:
+          World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap2, xMin, xMax, yMin, yMax);
+          break;
+        case 3:
+          World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap3, xMin, xMax, yMin, yMax);
+          break;
       }
     }
   }
