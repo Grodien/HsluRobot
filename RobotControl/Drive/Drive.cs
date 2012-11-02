@@ -7,6 +7,7 @@
 
 using System;
 using System.Threading;
+using System.Collections.Generic;
 using RobotControl.Engine;
 using RobotIO;
 
@@ -29,13 +30,17 @@ namespace RobotControl.Drive
     private volatile bool _stop;
     private DriveInfo _info;
     private DriveInfo _oldInfo;
-    private Track _track;
+    private Track _actualTrack;
+
+    private List<Track> _tracksToRun;
 
     /// <summary>
     /// Initialisiert den Antrieb des Roboters
     /// </summary>
     public Drive()
     {
+      _tracksToRun = new List<Track>();
+
       // Antrieb initialisieren
       if (Constants.IsWinCE)
       {
@@ -78,6 +83,14 @@ namespace RobotControl.Drive
         DriveCtrl.Dispose(); // DriveCtrl disposen => HW-Motorencontroller werden zurückgesetzt und Motoren laufen aus
         _disposed = true;
       }
+    }
+
+    public event EventHandler TrackFinished;
+
+    public void OnTrackFinished()
+    {
+      EventHandler handler = TrackFinished;
+      if (handler != null) handler(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -149,7 +162,15 @@ namespace RobotControl.Drive
     /// </summary>
     public bool Done
     {
-      get { return _track == null; }
+      get { return _actualTrack == null; }
+    }
+
+    private void AddTrack(Track track)
+    {
+      lock (_tracksToRun)
+      {
+        _tracksToRun.Add(track);
+      }
     }
 
     /// <summary>
@@ -164,7 +185,7 @@ namespace RobotControl.Drive
     public void RunLine(float length, float speed, float acceleration)
     {
         if (_disposed) throw new ObjectDisposedException("Drive");
-        if (_track == null) _track = new TrackLine(length, speed, acceleration);
+        AddTrack(new TrackLine(length, speed, acceleration));
     }
 
     /// <summary>
@@ -181,7 +202,7 @@ namespace RobotControl.Drive
     public void RunTurn(float angle, float speed, float acceleration)
     {
         if (_disposed) throw new ObjectDisposedException("Drive");
-        if (_track == null) _track = new TrackTurn(angle, speed, acceleration);
+        AddTrack(new TrackTurn(angle, speed, acceleration));
     }
     /// <summary>
     /// Fährt eine Linkskurve
@@ -198,7 +219,7 @@ namespace RobotControl.Drive
     public void RunArcLeft(float radius, float angle, float speed, float acceleration)
     {
         if (_disposed) throw new ObjectDisposedException("Drive");
-        if (_track == null) _track = new TrackArcLeft(radius, angle, speed, acceleration);
+        AddTrack(new TrackArcLeft(radius, angle, speed, acceleration));
     }
     /// <summary>
     /// Fährt eine Rechtskurve
@@ -215,7 +236,7 @@ namespace RobotControl.Drive
     public void RunArcRight(float radius, float angle, float speed, float acceleration)
     {
         if (_disposed) throw new ObjectDisposedException("Drive");
-        if (_track == null) _track = new TrackArcRight(radius, angle, speed, acceleration);
+        if (_actualTrack == null) _actualTrack = new TrackArcRight(radius, angle, speed, acceleration);
     }
 
     /// <summary>
@@ -262,13 +283,13 @@ namespace RobotControl.Drive
 
         if (_stop)
         {
-          _track = null;
+          _actualTrack = null;
           _stop = false;
           velocity = 0;
         }
 
         // Falls ein neuer Track gesetzt wurde, diesen initialisieren und starten 
-        if (_track != null && _track != oldTrack)
+        if (_actualTrack != null && _actualTrack != oldTrack)
         {
           lock (_infoLock)
           {
@@ -280,7 +301,7 @@ namespace RobotControl.Drive
             }
             _info.Runtime = 0;
           }
-          oldTrack = _track;
+          oldTrack = _actualTrack;
           _halt = false;
         }
 
@@ -290,41 +311,41 @@ namespace RobotControl.Drive
         ticks += deltaTicks;
         deltaTime = deltaTicks/1000.0f;
 
-        if (_track != null)
+        if (_actualTrack != null)
         {
-          if ((_track.Done) || ((_halt && (velocity == 0))))
+          if ((_actualTrack.Done) || ((_halt && (velocity == 0))))
           {
-            _track = null;
+            _actualTrack = null;
             _halt = false;
           }
-          else if (_track.ResidualLength > 0)
+          else if (_actualTrack.ResidualLength > 0)
           {
             // Neue Prozessparameter berechnen
             // -------------------------------
             if (_halt)
             {
               // Roboter mit der eingestellten Beschleunigung bremsen und anhalten
-              velocity = Math.Max(0, velocity - deltaTime*_track.Acceleration);
+              velocity = Math.Max(0, velocity - deltaTime*_actualTrack.Acceleration);
             }
             else
             {
               // Beschleunigung (od. Verzögerung bei Reduktion der nominalSpeed) 
-              if (_track.NominalSpeed > velocity)
+              if (_actualTrack.NominalSpeed > velocity)
               {
-                velocity = Math.Min(_track.NominalSpeed, velocity + deltaTime*_track.Acceleration);
+                velocity = Math.Min(_actualTrack.NominalSpeed, velocity + deltaTime*_actualTrack.Acceleration);
               }
-              else if (_track.NominalSpeed < velocity)
+              else if (_actualTrack.NominalSpeed < velocity)
               {
-                velocity = Math.Max(_track.NominalSpeed, velocity - deltaTime*_track.Acceleration);
+                velocity = Math.Max(_actualTrack.NominalSpeed, velocity - deltaTime*_actualTrack.Acceleration);
               }
 
               // Verzögerung auf Zielposition
               // Geschwindigkeit auf max. zulässige Bremsgeschwindigkeit limitieren
               float ve;
-              float s = _track.ResidualLength;
+              float s = _actualTrack.ResidualLength;
               if (s >= 0)
               {
-                ve = (float) Math.Sqrt(2.0*_track.Acceleration*s);
+                ve = (float) Math.Sqrt(2.0*_actualTrack.Acceleration*s);
               }
               else
               {
@@ -339,7 +360,7 @@ namespace RobotControl.Drive
             // Neue Prozessparameter aktivieren
             // --------------------------------
             float leftSpeed, rightSpeed;
-            _track.IncrementalStep(deltaTime, velocity, out leftSpeed, out rightSpeed);
+            _actualTrack.IncrementalStep(deltaTime, velocity, out leftSpeed, out rightSpeed);
             MotorCtrlLeft.Speed = leftSpeed;
             MotorCtrlRight.Speed = rightSpeed;
 
@@ -350,7 +371,7 @@ namespace RobotControl.Drive
           }
           else
           {
-            _track = null;
+            _actualTrack = null;
           }
         }
         else
@@ -395,7 +416,7 @@ namespace RobotControl.Drive
           _info.DistanceL = -MotorCtrlLeft.Distance;
           _info.DistanceR = MotorCtrlRight.Distance;
         }
-        if (_track != null) _info.Runtime = _track.ElapsedTime;
+        if (_actualTrack != null) _info.Runtime = _actualTrack.ElapsedTime;
       }
 
       // Position und Richtung im Weltkoordinatensystem bestimmen 
