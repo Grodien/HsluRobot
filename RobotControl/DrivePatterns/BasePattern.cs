@@ -24,31 +24,40 @@ namespace RobotControl.DrivePatterns
       
     }
 
-    protected void RunLine(float length, float speed, float acceleration) {
+    protected void RunLine(float length, float speed, float acceleration, bool wait)
+    {
       if (_stop) throw new RobotStoppedException();
       World.Robot.Drive.RunLine(length, speed, acceleration);
-      _resetEvent.WaitOne();
+      if (wait) _resetEvent.WaitOne();
     }
 
-    protected void RunTurn(float angle, float speed, float acceleration)
+    protected void RunTurn(float angle, float speed, float acceleration, bool wait)
     {
       if (_stop) throw new RobotStoppedException();
       World.Robot.Drive.RunTurn(angle, speed, acceleration);
-      _resetEvent.WaitOne();
+      if (wait) _resetEvent.WaitOne();
     }
 
-    protected void RunArcRight(float radius, float angle, float speed, float acceleration)
+    protected void RunArcRight(float radius, float angle, float speed, float acceleration, bool wait)
     {
       if (_stop) throw new RobotStoppedException();
       World.Robot.Drive.RunArcRight(radius, angle, speed, acceleration);
-      _resetEvent.WaitOne();
+      if (wait) _resetEvent.WaitOne();
     }
 
-    protected void RunArcLeft(float radius, float angle, float speed, float acceleration)
+    /// <summary>
+    /// Runs the arc left.
+    /// </summary>
+    /// <param name="radius">The radius.</param>
+    /// <param name="angle">The angle.</param>
+    /// <param name="speed">The speed.</param>
+    /// <param name="acceleration">The acceleration.</param>
+    /// <exception cref="RobotControl.DrivePatterns.RobotStoppedException"></exception>
+    protected void RunArcLeft(float radius, float angle, float speed, float acceleration, bool wait)
     {
       if (_stop) throw new RobotStoppedException();
       World.Robot.Drive.RunArcLeft(radius, angle, speed, acceleration);
-      _resetEvent.WaitOne();
+      if (wait) _resetEvent.WaitOne();
     }
 
     public virtual void Stop() {
