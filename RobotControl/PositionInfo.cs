@@ -19,5 +19,19 @@ namespace RobotControl
             Y = y;
             Angle = angle;
         }
+
+      public static bool operator ==(PositionInfo p1, PositionInfo p2)
+      {
+        return p1.X == p2.X &&
+               p1.Y == p2.X &&
+               p1.Angle == p2.Angle;
+      }
+
+      public static bool operator !=(PositionInfo p1, PositionInfo p2)
+      {
+        return p1.X != p2.X ||
+               p1.Y != p2.X ||
+               p1.Angle != p2.Angle;
+      }
     }
 }

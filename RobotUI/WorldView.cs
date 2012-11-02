@@ -6,6 +6,7 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Windows.Forms;
@@ -23,10 +24,13 @@ namespace RobotUI
     private readonly Pen _penGrid2;
     private SolidBrush _brushRobot;
     private readonly Pen _penAngle;
+    private readonly Pen _penRun;
     private readonly Pen _penGrid1;
     private readonly Pen _penRadar;
     private Bitmap _plot;
     private ViewPort _viewPort;
+
+    private readonly LinkedList<PositionInfo> _drivedPoints;
 
 
     public WorldView()
@@ -35,10 +39,12 @@ namespace RobotUI
       _penGrid2 = new Pen(Color.Gray, 1);
       _penAngle = new Pen(Color.Black, 6);
       _penRadar = new Pen(Color.Green, 6);
+      _penRun = new Pen(Color.Red, 2);
       _font = new Font(FontFamily.GenericSerif, 8, FontStyle.Regular);
       _fontBrush = new SolidBrush(Color.Black);
       _brushRobot = new SolidBrush(Color.Gray);
 
+      _drivedPoints = new LinkedList<PositionInfo>();
       _viewPort = new ViewPort(-1, 4, -2, 2);
 
       InitializeComponent();
@@ -204,6 +210,10 @@ namespace RobotUI
           #region Roboter zeichnen
 
           var pos = robot.Drive.Position;
+          if (_drivedPoints.Last == null ||_drivedPoints.Last.Value != pos)
+          {
+            _drivedPoints.AddLast(pos);
+          }
           double phi = pos.Angle / 180 * Math.PI;
 
           // Roboter.Radar
@@ -228,6 +238,13 @@ namespace RobotUI
             xScreen + WidthToScreen((float)(.07f * Math.Cos(phi))),
             yScreen + HeightToScreen((float)(-.07f * Math.Sin(phi))));
 
+          var enumerator = _drivedPoints.GetEnumerator();
+          PositionInfo lastInfo = enumerator.Current;
+          while (enumerator.MoveNext())
+          {
+            g.DrawLine(_penRun, XtoScreen(lastInfo.X), YtoScreen(lastInfo.Y), XtoScreen(enumerator.Current.X), YtoScreen(enumerator.Current.Y));
+            lastInfo = enumerator.Current;
+          }
           #endregion
         }
       }
