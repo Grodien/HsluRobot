@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using RobotControl;
+using RobotControl.DrivePatterns;
 using RobotControl.Input;
 using RobotControl.Output;
 using RobotIO;
@@ -26,12 +27,12 @@ namespace Testat1CE
       if (!Constants.IsWinCE)
       {
         //World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap1, -1.25f, 1.25f, -2.75f, -.25f);
-        World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap1, -3, 3, -1, 5);
+        World.ObstacleMap = new ObstacleMap(RobotUI.Properties.Resource.ObstacleMap1, -1.25f, 1.25f, -0.25f, 2.25f);
       }
 
       // WorldView erstellen und anzeigen
       FormWorldView fww = new FormWorldView();
-      fww.ViewPort = new ViewPort(-3, 3, -1, 5);
+      fww.ViewPort = new ViewPort(-1.25, 1.25, -0.25, 2.25);
 
       fww.Show();
 
@@ -58,7 +59,8 @@ namespace Testat1CE
 
       if (switchEventArgs.SwitchEnabled)
       {
-        
+        FindSpaceAndPark pattern = new FindSpaceAndPark();
+        pattern.Start();
       }
     }
   }
