@@ -11,7 +11,7 @@ namespace RobotControl.DrivePatterns
     private volatile bool _stop = false;
     private readonly AutoResetEvent _resetEvent;
 
-    public BasePattern() {
+    protected BasePattern() {
       _resetEvent = new AutoResetEvent(false);
       World.Robot.Drive.TrackFinished += DriveTrackFinished;
     }
@@ -20,9 +20,11 @@ namespace RobotControl.DrivePatterns
       _resetEvent.Set();
     }
 
-    public virtual void Start() {
-      
+    public void Start() {
+      new Thread(StartThread).Start();
     }
+
+    protected abstract void StartThread();
 
     protected void RunLine(float length, float speed, float acceleration, bool wait)
     {

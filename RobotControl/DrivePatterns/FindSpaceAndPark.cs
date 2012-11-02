@@ -8,27 +8,13 @@ namespace RobotControl.DrivePatterns
 {
   public class FindSpaceAndPark : BasePattern
   {
-    public FindSpaceAndPark() : base() {
-    }
-
-    public override void Start() {
-      new Thread(StartThread).Start();
-    }   
-
-    private void StartThread() {
+    protected override void StartThread() {
       try {
         Robot robot = World.Robot;
 
-        RunArcRight(0.5f, 90, 1, 1, true);
-        RunArcLeft(0.5f, 90, 1, 1, true);
-
-        /*while (robot.Radar.Distance < 2.5f) {
-          RunTurn(10,1,1);
-        }
-
-        RunLine(1.25f, 1, 1);
-
-        RunTurn(-(90 - robot.Position.Angle), 1, 1);*/
+        RunArcRight(0.4f, 45, 1, 1, false);
+        RunLine(.7f, 1, 1, false);
+        RunArcLeft(0.4f, 45, 1, 1, true);
 
         RunLine(robot.Radar.Distance - 0.3f, 1, 1, true);
 
