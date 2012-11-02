@@ -32,6 +32,7 @@ namespace RobotControl.Drive
     private DriveInfo _info;
     private DriveInfo _oldInfo;
     private Track _actualTrack;
+    private bool _speedsUp;
 
     private readonly List<Track> _tracksToRun;
 
@@ -84,6 +85,22 @@ namespace RobotControl.Drive
         DriveCtrl.Dispose(); // DriveCtrl disposen => HW-Motorencontroller werden zurückgesetzt und Motoren laufen aus
         _disposed = true;
       }
+    }
+
+    public event EventHandler SlowsDown;
+
+    public void OnSlowsDown()
+    {
+      EventHandler handler = SlowsDown;
+      if (handler != null) handler(this, EventArgs.Empty);
+    }
+
+    public event EventHandler SpeedsUp;
+
+    public void OnSpeedsUp()
+    {
+      EventHandler handler = SpeedsUp;
+      if (handler != null) handler(this, EventArgs.Empty);
     }
 
     /// <summary>
@@ -342,8 +359,11 @@ namespace RobotControl.Drive
             {
               _tracksToRun.Remove(_actualTrack);
             }
-            OnTrackFinished();
             _actualTrack = null;
+            if (_tracksToRun.Count == 0)
+            {
+              OnTrackFinished();
+            }
           }
           else if (_halt && (velocity == 0))
           {
@@ -364,10 +384,20 @@ namespace RobotControl.Drive
               if (_actualTrack.NominalSpeed > velocity)
               {
                 velocity = Math.Min(_actualTrack.NominalSpeed, velocity + deltaTime*_actualTrack.Acceleration);
+                if (_speedsUp == false)
+                {
+                  _speedsUp = true;
+                  OnSpeedsUp();
+                }
               }
               else if (_actualTrack.NominalSpeed < velocity)
               {
                 velocity = Math.Max(_actualTrack.NominalSpeed, velocity - deltaTime*_actualTrack.Acceleration);
+                if (_speedsUp)
+                {
+                  _speedsUp = false;
+                  OnSlowsDown();
+                }
               }
 
               // Verzögerung auf Zielposition
@@ -384,7 +414,16 @@ namespace RobotControl.Drive
               }
 
               if (float.IsNaN(ve)) ve = 0;
-              velocity = Math.Min(ve, velocity);
+
+              if (ve < velocity)
+              {
+                velocity = ve;
+                if (_speedsUp)
+                {
+                  _speedsUp = false;
+                  OnSlowsDown();
+                }
+              }
               //System.Console.WriteLine(velocity);
             }
 
@@ -406,8 +445,11 @@ namespace RobotControl.Drive
             {
               _tracksToRun.Remove(_actualTrack);
             }
-            OnTrackFinished();
             _actualTrack = null;
+            if (_tracksToRun.Count == 0)
+            {
+              OnTrackFinished();
+            }
           }
         }
         else

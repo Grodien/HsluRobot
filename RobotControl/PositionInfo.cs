@@ -23,15 +23,13 @@ namespace RobotControl
       public static bool operator ==(PositionInfo p1, PositionInfo p2)
       {
         return p1.X == p2.X &&
-               p1.Y == p2.X &&
-               p1.Angle == p2.Angle;
+               p1.Y == p2.X;
       }
 
       public static bool operator !=(PositionInfo p1, PositionInfo p2)
       {
         return p1.X != p2.X ||
-               p1.Y != p2.X ||
-               p1.Angle != p2.Angle;
+               p1.Y != p2.X;
       }
     }
 }
