@@ -54,6 +54,7 @@ namespace RobotControl.Drive
       DriveCtrl.Power = true;
       MotorCtrlLeft.Acceleration = 10f;
       MotorCtrlRight.Acceleration = 10f;
+      Position = new PositionInfo(0f, 0f, 90);
 
       // Prozess-Thread erzeugen und starten
       _thread = new Thread(RunTracks) {IsBackground = true, Priority = ThreadPriority.Highest};

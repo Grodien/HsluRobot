@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C3A2FFA3-74DC-41A4-9903-FB802097DD1F}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Testat1Win7</RootNamespace>
+    <AssemblyName>Testat1Win7</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Testat1CE\FormWorldControl.cs">
+      <Link>FormWorldControl.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\Testat1CE\FormWorldControl.Designer.cs">
+      <Link>FormWorldControl.Designer.cs</Link>
+      <DependentUpon>FormWorldControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="..\Testat1CE\Program.cs">
+      <Link>Program.cs</Link>
+    </Compile>
+    <Compile Include="..\WorldCE\FormWorldView.cs">
+      <Link>FormWorldView.cs</Link>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="..\WorldCE\FormWorldView.Designer.cs">
+      <Link>FormWorldView.Designer.cs</Link>
+      <DependentUpon>FormWorldView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="..\Testat1CE\FormWorldControl.resx">
+      <Link>FormWorldControl.resx</Link>
+      <DependentUpon>FormWorldControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\WorldCE\FormWorldView.resx">
+      <Link>FormWorldView.resx</Link>
+      <DependentUpon>FormWorldView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RobotControl\RobotControl.csproj">
+      <Project>{2367809C-C1C0-46FF-9BA1-24D9B73DA2D8}</Project>
+      <Name>RobotControl</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RobotIO\RobotIO.csproj">
+      <Project>{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}</Project>
+      <Name>RobotIO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\RobotUI\RobotUI.csproj">
+      <Project>{5703687F-88F2-4A96-A96A-11303F42CB37}</Project>
+      <Name>RobotUI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
