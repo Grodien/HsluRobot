@@ -6,6 +6,7 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Collections.Generic;
 using RobotControl.Engine;
@@ -32,7 +33,7 @@ namespace RobotControl.Drive
     private DriveInfo _oldInfo;
     private Track _actualTrack;
 
-    private List<Track> _tracksToRun;
+    private readonly List<Track> _tracksToRun;
 
     /// <summary>
     /// Initialisiert den Antrieb des Roboters
@@ -85,9 +86,12 @@ namespace RobotControl.Drive
       }
     }
 
+    /// <summary>
+    /// Occurs when [track finished].
+    /// </summary>
     public event EventHandler TrackFinished;
 
-    public void OnTrackFinished()
+    private void OnTrackFinished()
     {
       EventHandler handler = TrackFinished;
       if (handler != null) handler(this, EventArgs.Empty);
@@ -236,14 +240,19 @@ namespace RobotControl.Drive
     public void RunArcRight(float radius, float angle, float speed, float acceleration)
     {
         if (_disposed) throw new ObjectDisposedException("Drive");
-        if (_actualTrack == null) _actualTrack = new TrackArcRight(radius, angle, speed, acceleration);
+        AddTrack(new TrackArcRight(radius, angle, speed, acceleration));
     }
 
     /// <summary>
     /// Hält den Roboter sofort (abrupt) an.
+    /// Removes all remaining tracks.
     /// </summary>
     public void Stop()
     {
+      lock (_tracksToRun)
+      {
+        _tracksToRun.Clear();
+      }
       _stop = true;
     }
 
@@ -286,6 +295,15 @@ namespace RobotControl.Drive
           _actualTrack = null;
           _stop = false;
           velocity = 0;
+        }
+
+        // Check if new Track needs to be assigned
+        lock (_tracksToRun)
+        {
+          if (_actualTrack == null && _tracksToRun.Count > 0)
+          {
+            _actualTrack = _tracksToRun[0];
+          }
         }
 
         // Falls ein neuer Track gesetzt wurde, diesen initialisieren und starten 
@@ -342,7 +360,7 @@ namespace RobotControl.Drive
               // Verzögerung auf Zielposition
               // Geschwindigkeit auf max. zulässige Bremsgeschwindigkeit limitieren
               float ve;
-              float s = _actualTrack.ResidualLength;
+              float s = _tracksToRun.Sum(track => track.ResidualLength);
               if (s >= 0)
               {
                 ve = (float) Math.Sqrt(2.0*_actualTrack.Acceleration*s);
@@ -371,6 +389,11 @@ namespace RobotControl.Drive
           }
           else
           {
+            lock (_tracksToRun)
+            {
+              _tracksToRun.Remove(_actualTrack);
+            }
+            OnTrackFinished();
             _actualTrack = null;
           }
         }
