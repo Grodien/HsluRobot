@@ -249,10 +249,6 @@ namespace RobotControl.Drive
     /// </summary>
     public void Stop()
     {
-      lock (_tracksToRun)
-      {
-        _tracksToRun.Clear();
-      }
       _stop = true;
     }
 
@@ -262,6 +258,11 @@ namespace RobotControl.Drive
     public void Halt()
     {
       _halt = true;
+    }
+
+    public void Restart()
+    {
+      _halt = false;
     }
 
     /// <summary>
@@ -292,6 +293,10 @@ namespace RobotControl.Drive
 
         if (_stop)
         {
+          lock (_tracksToRun)
+          {
+            _tracksToRun.Clear();
+          }
           _actualTrack = null;
           _stop = false;
           velocity = 0;
@@ -331,7 +336,7 @@ namespace RobotControl.Drive
 
         if (_actualTrack != null)
         {
-          if ((_actualTrack.Done) || ((_halt && (velocity == 0))))
+          if (_actualTrack.Done)
           {
             lock (_tracksToRun)
             {
@@ -339,7 +344,10 @@ namespace RobotControl.Drive
             }
             OnTrackFinished();
             _actualTrack = null;
-            _halt = false;
+          }
+          else if (_halt && (velocity == 0))
+          {
+            // Wait until restart
           }
           else if (_actualTrack.ResidualLength > 0)
           {

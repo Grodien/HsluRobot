@@ -47,7 +47,7 @@ namespace RobotControl.Drive
     public virtual bool Done
     {
       //get { return (elapsedTime > pauseTime) && (coveredLength > Length); }
-      get { return (CoveredLength > Length); }
+      get { return (CoveredLength >= Length); }
     }
 
     /// <summary>
