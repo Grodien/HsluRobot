@@ -267,6 +267,7 @@ namespace RobotControl.Drive
     public void Stop()
     {
       _stop = true;
+      _halt = false;
     }
 
     /// <summary>
@@ -342,7 +343,6 @@ namespace RobotControl.Drive
             _info.Runtime = 0;
           }
           oldTrack = _actualTrack;
-          _halt = false;
         }
 
         // Aktuelle Prozessdaten erfassen

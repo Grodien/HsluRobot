@@ -161,7 +161,7 @@ namespace RobotUI
       {
         _plot = new Bitmap(pictureBox.Width, pictureBox.Height);
       }
-
+      
       using (Graphics g = Graphics.FromImage(_plot))
       {
         // Hintergrund löschen

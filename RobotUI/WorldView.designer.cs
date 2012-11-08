@@ -52,6 +52,8 @@
           this.Controls.Add(this.pictureBox);
           this.Name = "WorldView";
           this.Size = new System.Drawing.Size(524, 292);
+          this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.WorldView_KeyPress);
+          this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WorldView_KeyDown);
           this.ResumeLayout(false);
 
         }
