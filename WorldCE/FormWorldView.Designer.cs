@@ -54,6 +54,7 @@
 
     #endregion
 
-    private RobotUI.WorldView worldView1;
+    public RobotUI.WorldView worldView1;
+
   }
 }
