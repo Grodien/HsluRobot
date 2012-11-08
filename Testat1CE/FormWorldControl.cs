@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,7 @@ namespace Testat1CE
     private const float yMax = 2.25f;
 
     private BasePattern _actualPattern;
+    private FormWorldView fww;
 
     public FormWorldControl()
     {
@@ -40,7 +42,7 @@ namespace Testat1CE
       }
 
       // WorldView erstellen und anzeigen
-      FormWorldView fww = new FormWorldView();
+      fww = new FormWorldView();
       fww.ViewPort = new ViewPort(xMin, xMax, yMin, yMax);
 
       fww.Show();
@@ -60,7 +62,13 @@ namespace Testat1CE
       consoleView1.RobotConsole = World.Robot.RobotConsole;
 
       World.Robot.RobotConsole[Switches.Switch1].SwitchStateChanged += OnSwitchStateChanged;
+      World.Robot.RobotConsole[Switches.Switch2].SwitchStateChanged += MakeImageSwitchStateChanged;
       driveView1.buttonReset.Click += ButtonResetOnClick;
+    }
+
+    void MakeImageSwitchStateChanged(object sender, SwitchEventArgs e)
+    {
+      fww.worldView1.GetWorldAsImage().Save(DateTime.Now.ToString("ddMMyyyyHHmmssffff")+".jpg", ImageFormat.Jpeg);
     }
 
     private void ButtonResetOnClick(object sender, EventArgs eventArgs)

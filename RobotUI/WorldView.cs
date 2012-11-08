@@ -254,5 +254,10 @@ namespace RobotUI
     {
       UpdateView();
     }
+
+    public Image GetWorldAsImage()
+    {
+      return pictureBox.Image;
+    } 
   }
 }
