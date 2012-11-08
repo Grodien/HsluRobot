@@ -13,6 +13,8 @@ namespace RobotControl.DrivePatterns
     private volatile bool _stop = false;
     private readonly AutoResetEvent _resetEvent;
 
+    public event EventHandler PatternFinished;
+
     protected BasePattern(float speed, float acceleration)
     {
       _speed = speed;
@@ -21,12 +23,25 @@ namespace RobotControl.DrivePatterns
       World.Robot.Drive.TrackFinished += DriveTrackFinished;
     }
 
-    void DriveTrackFinished(object sender, EventArgs e) {
+    protected void OnPatternFinished()
+    {
+      EventHandler handler = PatternFinished;
+      if (handler != null) 
+        handler(this, EventArgs.Empty);
+    }
+
+    private void DriveTrackFinished(object sender, EventArgs e) {
       _resetEvent.Set();
     }
 
     public void Start() {
-      new Thread(StartThread).Start();
+      ThreadPool.QueueUserWorkItem(obj => StartPattern());
+    }
+
+    private void StartPattern()
+    {
+      StartThread();
+      OnPatternFinished();
     }
 
     protected abstract void StartThread();
@@ -64,6 +79,16 @@ namespace RobotControl.DrivePatterns
       if (_stop) throw new RobotStoppedException();
       World.Robot.Drive.RunArcLeft(radius, angle, _speed, _acceleration);
       if (wait) _resetEvent.WaitOne();
+    }
+
+    public void Restart()
+    {
+      World.Robot.Drive.Restart();
+    }
+
+    public void Halt()
+    {
+      World.Robot.Drive.Halt();
     }
 
     public virtual void Stop() {

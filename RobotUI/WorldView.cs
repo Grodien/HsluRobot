@@ -24,7 +24,7 @@ namespace RobotUI
     private readonly Pen _penGrid2;
     private SolidBrush _brushRobot;
     private readonly Pen _penAngle;
-    private readonly Pen _penRun;
+    private readonly Brush _brushRun;
     private readonly Pen _penGrid1;
     private readonly Pen _penRadar;
     private Bitmap _plot;
@@ -39,7 +39,7 @@ namespace RobotUI
       _penGrid2 = new Pen(Color.Gray, 1);
       _penAngle = new Pen(Color.Black, 6);
       _penRadar = new Pen(Color.Green, 6);
-      _penRun = new Pen(Color.Red, 2);
+      _brushRun = new SolidBrush(Color.Red);
       _font = new Font(FontFamily.GenericSerif, 8, FontStyle.Regular);
       _fontBrush = new SolidBrush(Color.Black);
       _brushRobot = new SolidBrush(Color.Gray);
@@ -216,6 +216,12 @@ namespace RobotUI
           }
           double phi = pos.Angle / 180 * Math.PI;
 
+          // Draw Points
+          foreach (var drivedPoint in _drivedPoints)
+          {
+            g.FillEllipse(_brushRun, XtoScreen(drivedPoint.X), YtoScreen(drivedPoint.Y), 5, 5);
+          }
+
           // Roboter.Radar
           PositionInfo radarOffset = robot.Radar.AntennaPosition;
           PositionInfo radarPos = new PositionInfo(
@@ -237,14 +243,6 @@ namespace RobotUI
           g.DrawLine(_penAngle, xScreen, yScreen,
             xScreen + WidthToScreen((float)(.07f * Math.Cos(phi))),
             yScreen + HeightToScreen((float)(-.07f * Math.Sin(phi))));
-
-          var enumerator = _drivedPoints.GetEnumerator();
-          PositionInfo lastInfo = enumerator.Current;
-          while (enumerator.MoveNext())
-          {
-            g.DrawLine(_penRun, XtoScreen(lastInfo.X), YtoScreen(lastInfo.Y), XtoScreen(enumerator.Current.X), YtoScreen(enumerator.Current.Y));
-            lastInfo = enumerator.Current;
-          }
           #endregion
         }
       }

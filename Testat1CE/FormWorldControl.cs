@@ -23,6 +23,8 @@ namespace Testat1CE
     private const float yMin = -0.25f;
     private const float yMax = 2.25f;
 
+    private BasePattern _actualPattern;
+
     public FormWorldControl()
     {
       InitializeComponent();
@@ -58,17 +60,46 @@ namespace Testat1CE
       consoleView1.RobotConsole = World.Robot.RobotConsole;
 
       World.Robot.RobotConsole[Switches.Switch1].SwitchStateChanged += OnSwitchStateChanged;
+      driveView1.buttonReset.Click += ButtonResetOnClick;
+    }
+
+    private void ButtonResetOnClick(object sender, EventArgs eventArgs)
+    {
+      if (_actualPattern != null)
+      {
+        _actualPattern.Stop();
+      }
     }
 
     private void OnSwitchStateChanged(object sender, SwitchEventArgs switchEventArgs)
     {
-      World.Robot.RobotConsole[Leds.Led1].LedEnabled = switchEventArgs.SwitchEnabled;
-
       if (switchEventArgs.SwitchEnabled)
       {
-        FindSpaceAndParkPattern pattern = new FindSpaceAndParkPattern((float)commonRunParameters1.UPSpeed.Value/1000f, (float)commonRunParameters1.UPAcceleration.Value/1000f);
-        pattern.Start();
+        if (_actualPattern == null)
+        {
+          World.Robot.RobotConsole[Leds.Led1].LedEnabled = switchEventArgs.SwitchEnabled;
+          _actualPattern = new FindSpaceAndParkPattern((float)commonRunParameters1.UPSpeed.Value / 1000f, (float)commonRunParameters1.UPAcceleration.Value / 1000f);
+          _actualPattern.PatternFinished += ActualPatternOnPatternFinished;
+          _actualPattern.Start();  
+        }
+        else
+        {
+          _actualPattern.Restart();
+        }
       }
+      else
+      {
+        if (_actualPattern != null)
+        {
+          _actualPattern.Halt();
+        }
+      }
+    }
+
+    private void ActualPatternOnPatternFinished(object sender, EventArgs e)
+    {
+      World.Robot.RobotConsole[Leds.Led1].LedEnabled = false;
+      _actualPattern = null;
     }
 
     private void upDownMap_ValueChanged(object sender, EventArgs e)

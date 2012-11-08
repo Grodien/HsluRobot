@@ -403,7 +403,11 @@ namespace RobotControl.Drive
               // Verzögerung auf Zielposition
               // Geschwindigkeit auf max. zulässige Bremsgeschwindigkeit limitieren
               float ve;
-              float s = _tracksToRun.Sum(track => track.ResidualLength);
+              float s;
+              lock (_tracksToRun)
+              {
+                s = _tracksToRun.Sum(track => track.ResidualLength);
+              }
               if (s >= 0)
               {
                 ve = (float) Math.Sqrt(2.0*_actualTrack.Acceleration*s);
