@@ -63,12 +63,22 @@ namespace Testat1CE
 
       World.Robot.RobotConsole[Switches.Switch1].SwitchStateChanged += OnSwitchStateChanged;
       World.Robot.RobotConsole[Switches.Switch2].SwitchStateChanged += MakeImageSwitchStateChanged;
+      World.Robot.RobotConsole[Switches.Switch3].SwitchStateChanged += ResetSwitchStateChanged;
       driveView1.buttonReset.Click += ButtonResetOnClick;
+    }
+
+    private void ResetSwitchStateChanged(object sender, SwitchEventArgs switchEventArgs) {
+      ButtonResetOnClick(null, null);
+      World.Robot.Drive.Position = new PositionInfo(0, 0, 90);
     }
 
     void MakeImageSwitchStateChanged(object sender, SwitchEventArgs e)
     {
-      fww.worldView1.GetWorldAsImage().Save(DateTime.Now.ToString("ddMMyyyyHHmmssffff")+".jpg", ImageFormat.Jpeg);
+      if (!Constants.IsWinCE)
+        fww.worldView1.GetWorldAsImage().Save(DateTime.Now.ToString("ddMMyyyyHHmmssffff")+".jpg", ImageFormat.Jpeg);
+      else {
+         fww.worldView1.GetWorldAsImage().Save("\\CompactFlash\\FTPRoot\\x86\\" + DateTime.Now.ToString("ddMMyyyyHHmmssffff") + ".bmp", ImageFormat.Bmp);
+      }
     }
 
     private void ButtonResetOnClick(object sender, EventArgs eventArgs)
@@ -81,6 +91,10 @@ namespace Testat1CE
 
     private void OnSwitchStateChanged(object sender, SwitchEventArgs switchEventArgs)
     {
+      if (commonRunParameters1.InvokeRequired) {
+        commonRunParameters1.Invoke(new Action(() => OnSwitchStateChanged(sender, switchEventArgs)));
+      }
+
       if (switchEventArgs.SwitchEnabled)
       {
         if (_actualPattern == null)
@@ -107,6 +121,7 @@ namespace Testat1CE
     private void ActualPatternOnPatternFinished(object sender, EventArgs e)
     {
       World.Robot.RobotConsole[Leds.Led1].LedEnabled = false;
+      fww.worldView1.AddRobotParkSpot(World.Robot.Position);
       _actualPattern = null;
     }
 

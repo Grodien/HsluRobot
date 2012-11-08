@@ -187,6 +187,10 @@
       <Project>{2367809C-C1C0-46FF-9BA1-24D9B73DA2D8}</Project>
       <Name>RobotControl</Name>
     </ProjectReference>
+    <ProjectReference Include="..\RobotIO\RobotIO.csproj">
+      <Project>{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}</Project>
+      <Name>RobotIO</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\ObstacleMap2.png" />
