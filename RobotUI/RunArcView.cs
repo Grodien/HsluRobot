@@ -5,6 +5,12 @@ namespace RobotUI
 {
   public partial class RunArcView : UserControl
   {
+    public string ButtonText
+    {
+      get { return BtnStart.Text; }
+      set { BtnStart.Text = value; }
+    }
+
     /// <summary>
     /// Occurs when [start clicked].
     /// </summary>

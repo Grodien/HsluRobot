@@ -16,5 +16,9 @@ namespace RobotControl.Drive
       leftSpeed = -newVelocity;
       rightSpeed = newVelocity;
     }
+
+    public override string ToStringData() {
+      return "TrackLine " + Length;
+    }
   }
 }
