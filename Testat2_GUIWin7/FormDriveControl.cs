@@ -6,20 +6,65 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using InTheHand.Net;
+using InTheHand.Net.Bluetooth;
+using InTheHand.Net.Sockets;
 using RobotControl.Drive;
+using Testat2_GUIWin7.Bluetooth;
 
 namespace Testat2_GUIWin7
 {
   public partial class FormDriveControl : Form
   {
+    private BluetoothConnector _connector;
+    private BackgroundWorker _discoverWorker;
+    private BackgroundWorker _connectWorker;
+
     public FormDriveControl()
     {
       InitializeComponent();
+      _connector = new BluetoothConnector();
+      _connectWorker = new BackgroundWorker();
+      _connectWorker.DoWork += ConnectWorkerOnDoWork;
+      _connectWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ConnectWorkerRunWorkerCompleted);
+      _discoverWorker = new BackgroundWorker();
+      _discoverWorker.DoWork += DiscoverWorkerOnDoWork;
+      _discoverWorker.RunWorkerCompleted += DiscoverWorkerOnRunDiscoverWorkerCompleted;
+    }
+
+    void ConnectWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+    {
+      if (e.Error == null) {
+        statusLabel.Text = "Connection to Device established!";
+        lsbCommands.Items.Clear();
+        SetControlState(true);
+      } else {
+        statusLabel.Text = "Failed to connect to Device!";
+        btnConnect.Enabled = true;
+        btnRefresh.Enabled = true;
+      }
+    }
+
+    private void ConnectWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs) {
+      _connector.Connect((BluetoothDevice)doWorkEventArgs.Argument);
+    }
+
+    private void DiscoverWorkerOnRunDiscoverWorkerCompleted(object sender, RunWorkerCompletedEventArgs runWorkerCompletedEventArgs) {
+      lsbCommands.Items.Clear();
+      btnRefresh.Enabled = true;
+      statusLabel.Text = String.Format("Found {0} devices", _connector.Peers.Count);
+      foreach (var bluetoothDeviceInfo in _connector.Peers) {
+        lsbCommands.Items.Add(bluetoothDeviceInfo);
+      }
+    }
+
+    private void DiscoverWorkerOnDoWork(object sender, DoWorkEventArgs doWorkEventArgs) {
+      _connector.DetectDevices();
     }
 
     private void RunLineView1StartClicked(object sender, EventArgs e)
     {
-      lsbCommands.Items.Add(new TrackLine((float)runLineView1.UPLength.Value, Track.DefaultMaxSpeed, Track.DefaultAcceleration));
+      lsbCommands.Items.Add(new TrackLine((float)runLineView1.UPLength.Value / 1000f, Track.DefaultMaxSpeed, Track.DefaultAcceleration));
     }
 
     private void RunTurnView1StartClicked(object sender, EventArgs e) {
@@ -75,12 +120,49 @@ namespace Testat2_GUIWin7
 
     private void BtnConnectClick(object sender, EventArgs e)
     {
+      if (_connectWorker.IsBusy || _discoverWorker.IsBusy)
+        return;
+    
+      _connectWorker.RunWorkerAsync(lsbCommands.SelectedItem);
+      btnRefresh.Enabled = false;
+      btnConnect.Enabled = false;
+      statusLabel.Text = "Connecting to device...";
+    }
 
+    private void SetControlState(bool state) {
+      btnStart.Enabled = state;
+      runArcView1.Enabled = state;
+      runLineView1.Enabled = state;
+      runTurnView1.Enabled = state;
     }
 
     private void BtnStartClick(object sender, EventArgs e)
     {
+      foreach (var item in lsbCommands.Items) {
+          _connector.Write(item.ToString());
+      }
+      _connector.Write("Start");
+    }
 
+    private void BtnRefreshClick(object sender, EventArgs e)
+    {
+
+      if (_discoverWorker.IsBusy || _connectWorker.IsBusy)
+        return;
+      
+      _discoverWorker.RunWorkerAsync();
+      lsbCommands.Items.Clear();
+      btnRefresh.Enabled = false;
+      statusLabel.Text = "Searching for Bluetooth Devices...";
+    }
+
+    private void LsbCommandsSelectedIndexChanged(object sender, EventArgs e) {
+      object obj = lsbCommands.SelectedItem;
+      if (obj != null && obj.GetType() == typeof(BluetoothDevice)) {
+        btnConnect.Enabled = true;
+      } else {
+        btnConnect.Enabled = false;
+      }
     }
   }
 }
