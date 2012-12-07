@@ -24,18 +24,25 @@ namespace Testat2_GUIWin7
     {
       InitializeComponent();
       _connector = new BluetoothConnector();
+      _connector.OnMessageReceived += _connector_OnMessageReceived;
       _connectWorker = new BackgroundWorker();
       _connectWorker.DoWork += ConnectWorkerOnDoWork;
-      _connectWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(ConnectWorkerRunWorkerCompleted);
+      _connectWorker.RunWorkerCompleted += ConnectWorkerRunWorkerCompleted;
       _discoverWorker = new BackgroundWorker();
       _discoverWorker.DoWork += DiscoverWorkerOnDoWork;
       _discoverWorker.RunWorkerCompleted += DiscoverWorkerOnRunDiscoverWorkerCompleted;
+    }
+
+    void _connector_OnMessageReceived(string message) {
+      statusLabel.Text = String.Format("Response: {0}", message);
     }
 
     void ConnectWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
       if (e.Error == null) {
         statusLabel.Text = "Connection to Device established!";
+        btnConnect.Text = "Disconnect";
+        btnConnect.Enabled = true;
         lsbCommands.Items.Clear();
         SetControlState(true);
       } else {
@@ -123,10 +130,21 @@ namespace Testat2_GUIWin7
       if (_connectWorker.IsBusy || _discoverWorker.IsBusy)
         return;
     
-      _connectWorker.RunWorkerAsync(lsbCommands.SelectedItem);
-      btnRefresh.Enabled = false;
-      btnConnect.Enabled = false;
-      statusLabel.Text = "Connecting to device...";
+      if (_connector.Connected) {
+        _connector.Disconnect();
+
+        btnConnect.Text = "Connect";
+
+        SetControlState(false);
+        btnRefresh.Enabled = true;
+        lsbCommands.Items.Clear();
+
+      } else {
+        _connectWorker.RunWorkerAsync(lsbCommands.SelectedItem);
+        btnRefresh.Enabled = false;
+        btnConnect.Enabled = false;
+        statusLabel.Text = "Connecting to device...";
+      }
     }
 
     private void SetControlState(bool state) {
@@ -139,9 +157,9 @@ namespace Testat2_GUIWin7
     private void BtnStartClick(object sender, EventArgs e)
     {
       foreach (var item in lsbCommands.Items) {
-          _connector.Write(item.ToString());
+          _connector.WriteLine(item.ToString());
       }
-      _connector.Write("Start");
+      _connector.WriteLine("Start");
     }
 
     private void BtnRefreshClick(object sender, EventArgs e)
@@ -158,7 +176,7 @@ namespace Testat2_GUIWin7
 
     private void LsbCommandsSelectedIndexChanged(object sender, EventArgs e) {
       object obj = lsbCommands.SelectedItem;
-      if (obj != null && obj.GetType() == typeof(BluetoothDevice)) {
+      if (_connector.Connected || (obj != null && obj.GetType() == typeof(BluetoothDevice))) {
         btnConnect.Enabled = true;
       } else {
         btnConnect.Enabled = false;

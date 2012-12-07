@@ -13,6 +13,9 @@ namespace RobotIO
     {
         public static bool IsWinCE { get { return Environment.OSVersion.Platform == PlatformID.WinCE; } }
 
+        // BlueTooth
+      public const string BluetoothServiceGuid = "{00112233-4455-6677-8899-aabbccddeeff}";
+
         // Roboter-Kennzahlen
         public const float WheelDiameter = 0.076f;
         public const float AxleLength = 0.263f;
