@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Sockets;
+using RobotIO;
 
 namespace Testat2_GUIWin7.Bluetooth
 {
   class BluetoothConnector
   {
-    private readonly BluetoothClient _client;
+    private BluetoothClient _client;
     private StreamWriter _writer;
+    private StreamReader _reader;
+    private Thread _readerThread;
+
+    public delegate void DlgMessageReceived(string message);
+    public event DlgMessageReceived OnMessageReceived;
 
     public BluetoothConnector() {
       _client = new BluetoothClient();
@@ -32,11 +39,35 @@ namespace Testat2_GUIWin7.Bluetooth
     }
 
     public void Connect(BluetoothDevice device) {
-      _client.Connect(device.DeviceInfo.DeviceAddress, new Guid("{00112233-4455-6677-8899-aabbccddeeff}"));
+      _client.Connect(device.DeviceInfo.DeviceAddress, new Guid(Constants.BluetoothServiceGuid));
+      _reader = new StreamReader(_client.GetStream());
       _writer = new StreamWriter(_client.GetStream());
+      
+      _readerThread = new Thread(ReadStream);
+      _readerThread.Start();
     }
 
-    public void Write(string data) {
+    public void Disconnect() {
+      _client.Close();
+      _client = new BluetoothClient();
+
+      _readerThread = null;
+      _reader = null;
+      _writer = null;
+    }
+
+    private void ReadStream() {
+      try {
+        while (_client.Connected)
+        {
+          string message = _reader.ReadLine();
+          if (OnMessageReceived != null && !String.IsNullOrEmpty(message))
+            OnMessageReceived(message);
+        }
+      } catch(Exception ex) { }
+    }
+
+    public void WriteLine(string data) {
       if (_writer != null) {
         _writer.WriteLine(data);
         _writer.Flush();
