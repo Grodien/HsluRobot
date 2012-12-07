@@ -20,7 +20,7 @@ namespace RobotControl.DrivePatterns
       _speed = speed;
       _acceleration = acceleration;
       _resetEvent = new AutoResetEvent(false);
-      World.Robot.Drive.TrackFinished += DriveTrackFinished;
+      World.Robot.Drive.TracksFinished += DriveTracksFinished;
     }
 
     protected void OnPatternFinished()
@@ -30,7 +30,7 @@ namespace RobotControl.DrivePatterns
         handler(this, EventArgs.Empty);
     }
 
-    private void DriveTrackFinished(object sender, EventArgs e) {
+    private void DriveTracksFinished(object sender, EventArgs e) {
       _resetEvent.Set();
     }
 
@@ -95,7 +95,7 @@ namespace RobotControl.DrivePatterns
       _stop = true;
       World.Robot.Drive.Stop();
       _resetEvent.Set();
-      World.Robot.Drive.TrackFinished -= DriveTrackFinished;
+      World.Robot.Drive.TracksFinished -= DriveTracksFinished;
     }
   }
 }

@@ -10,13 +10,13 @@ namespace RobotIO.Server
     private StreamReader _reader;
     protected StreamReader Reader
     {
-      get { return _reader ?? new StreamReader(_stream); }
+      get { return _reader = _reader ?? new StreamReader(_stream); }
     }
 
     private StreamWriter _writer;
     protected StreamWriter Writer
     {
-      get { return _writer ?? new StreamWriter(_stream); }
+      get { return _writer = _writer ?? new StreamWriter(_stream); }
     }
 
     public string IP { get; private set; }

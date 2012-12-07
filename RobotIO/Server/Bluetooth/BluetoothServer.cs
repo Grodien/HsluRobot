@@ -1,6 +1,7 @@
 ﻿using System.Net.Sockets;
 using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Sockets;
+using RobotIO.Server.HTTP;
 
 namespace RobotIO.Server.Bluetooth
 {
@@ -22,6 +23,7 @@ namespace RobotIO.Server.Bluetooth
       RequestDict.Add(BluetoothCommands.TrackTurn, tmpHandler);
       RequestDict.Add(BluetoothCommands.TrackArcLeft, tmpHandler);
       RequestDict.Add(BluetoothCommands.TrackArcRight, tmpHandler);
+      RequestDict.Add(BluetoothCommands.Status, new HttpRequest());
     }
 
     protected override void StartListener()

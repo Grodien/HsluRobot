@@ -36,6 +36,11 @@ namespace RobotIO.Server
 
     protected abstract void AddRequestHandlers();
 
+    protected void Log(string format, params object[] strings)
+    {
+      Console.WriteLine(format, strings);
+    }
+
     private void DoStart()
     {
       try

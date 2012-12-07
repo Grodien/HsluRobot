@@ -80,6 +80,7 @@
     <Compile Include="Input\Switches.cs" />
     <Compile Include="Input\SwitchEventArgs.cs" />
     <Compile Include="IOPortEx.cs" />
+    <Compile Include="Drive\Movement.cs" />
     <Compile Include="ObstacleMap.cs" />
     <Compile Include="Output\DigitalOut.cs" />
     <Compile Include="Output\DigitalOutHW.cs" />

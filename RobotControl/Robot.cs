@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using RobotControl.Drive;
 
 namespace RobotControl
 {
@@ -44,11 +45,15 @@ namespace RobotControl
       get { return Drive.Position; }
     }
 
+    public Movement Movement { get; private set; }
+
     public Robot()
     {
+      World.Robot = this;
       Drive = new Drive.Drive();
       RobotConsole = new RobotConsole();
       Radar = new Radar.Radar();
+      Movement = new Movement();
       Color = Color.Red;
     }
 

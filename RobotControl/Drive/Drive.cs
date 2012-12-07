@@ -106,12 +106,20 @@ namespace RobotControl.Drive
     /// <summary>
     /// Occurs when [track finished].
     /// </summary>
-    public event EventHandler TrackFinished;
+    public event EventHandler TracksFinished;
 
-    private void OnTrackFinished()
+    private void OnTracksFinished()
     {
-      EventHandler handler = TrackFinished;
+      EventHandler handler = TracksFinished;
       if (handler != null) handler(this, EventArgs.Empty);
+    }
+
+    public event EventHandler TrackDone;
+
+    public void OnTrackDone(Track track)
+    {
+      EventHandler handler = TrackDone;
+      if (handler != null) handler(track, EventArgs.Empty);
     }
 
     /// <summary>
@@ -186,7 +194,7 @@ namespace RobotControl.Drive
       get { return _actualTrack == null; }
     }
 
-    private void AddTrack(Track track)
+    public void AddTrack(Track track)
     {
       lock (_tracksToRun)
       {
@@ -355,6 +363,7 @@ namespace RobotControl.Drive
         {
           if (_actualTrack.Done)
           {
+            OnTrackDone(_actualTrack);
             lock (_tracksToRun)
             {
               _tracksToRun.Remove(_actualTrack);
@@ -362,7 +371,7 @@ namespace RobotControl.Drive
             _actualTrack = null;
             if (_tracksToRun.Count == 0)
             {
-              OnTrackFinished();
+              OnTracksFinished();
             }
           }
           else if (_halt && (velocity == 0))
@@ -445,6 +454,7 @@ namespace RobotControl.Drive
           }
           else
           {
+            OnTrackDone(_actualTrack);
             lock (_tracksToRun)
             {
               _tracksToRun.Remove(_actualTrack);
@@ -452,7 +462,7 @@ namespace RobotControl.Drive
             _actualTrack = null;
             if (_tracksToRun.Count == 0)
             {
-              OnTrackFinished();
+              OnTracksFinished();
             }
           }
         }

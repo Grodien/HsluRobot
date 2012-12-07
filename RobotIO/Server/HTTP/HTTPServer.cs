@@ -22,6 +22,7 @@ namespace RobotIO.Server.HTTP
     {
       _tcpListener = new TcpListener(_port);
       _tcpListener.Start();
+      Log("{0}: Started on {1}", Identifier, _tcpListener.LocalEndpoint.ToString());
       while (!Stopped)
       {
         TcpClient client = _tcpListener.AcceptTcpClient();

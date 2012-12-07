@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using RobotControl;
 using RobotIO.Server.Bluetooth;
+using RobotIO.Server.HTTP;
 
 namespace Testat2_ServerTest
 {
@@ -13,9 +14,12 @@ namespace Testat2_ServerTest
     {
       World.Robot = new Robot();
       var bluetoothServer = new BluetoothServer();
+      var httpServer = new HttpServer(8000);
       bluetoothServer.Start();
-      Console.ReadKey();
+      httpServer.Start();
+      Console.ReadLine();
       bluetoothServer.Stop();
+      httpServer.Stop();
     }
   }
 }
