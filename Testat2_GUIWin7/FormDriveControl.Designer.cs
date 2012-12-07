@@ -33,12 +33,14 @@
       this.runArcView1 = new RobotUI.RunArcView();
       this.runLineView1 = new RobotUI.RunLineView();
       this.grpBoxRobot = new System.Windows.Forms.GroupBox();
+      this.btnStatus = new System.Windows.Forms.Button();
       this.btnRefresh = new System.Windows.Forms.Button();
       this.btnConnect = new System.Windows.Forms.Button();
       this.btnStart = new System.Windows.Forms.Button();
       this.lsbCommands = new System.Windows.Forms.ListBox();
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+      this.lsbRobotMessages = new System.Windows.Forms.ListBox();
       this.grpBoxCommands.SuspendLayout();
       this.grpBoxRobot.SuspendLayout();
       this.statusStrip1.SuspendLayout();
@@ -93,16 +95,28 @@
       // 
       this.grpBoxRobot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                   | System.Windows.Forms.AnchorStyles.Right)));
+      this.grpBoxRobot.Controls.Add(this.btnStatus);
       this.grpBoxRobot.Controls.Add(this.btnRefresh);
       this.grpBoxRobot.Controls.Add(this.btnConnect);
       this.grpBoxRobot.Controls.Add(this.btnStart);
       this.grpBoxRobot.Controls.Add(this.lsbCommands);
       this.grpBoxRobot.Location = new System.Drawing.Point(289, 14);
       this.grpBoxRobot.Name = "grpBoxRobot";
-      this.grpBoxRobot.Size = new System.Drawing.Size(322, 317);
+      this.grpBoxRobot.Size = new System.Drawing.Size(330, 317);
       this.grpBoxRobot.TabIndex = 4;
       this.grpBoxRobot.TabStop = false;
       this.grpBoxRobot.Text = "Robot";
+      // 
+      // btnStatus
+      // 
+      this.btnStatus.Enabled = false;
+      this.btnStatus.Location = new System.Drawing.Point(168, 16);
+      this.btnStatus.Name = "btnStatus";
+      this.btnStatus.Size = new System.Drawing.Size(75, 23);
+      this.btnStatus.TabIndex = 5;
+      this.btnStatus.Text = "Status";
+      this.btnStatus.UseVisualStyleBackColor = true;
+      this.btnStatus.Click += new System.EventHandler(this.BtnStatusClick);
       // 
       // btnRefresh
       // 
@@ -128,7 +142,7 @@
       // btnStart
       // 
       this.btnStart.Enabled = false;
-      this.btnStart.Location = new System.Drawing.Point(241, 16);
+      this.btnStart.Location = new System.Drawing.Point(249, 16);
       this.btnStart.Name = "btnStart";
       this.btnStart.Size = new System.Drawing.Size(75, 23);
       this.btnStart.TabIndex = 2;
@@ -143,7 +157,7 @@
       this.lsbCommands.FormattingEnabled = true;
       this.lsbCommands.Location = new System.Drawing.Point(6, 45);
       this.lsbCommands.Name = "lsbCommands";
-      this.lsbCommands.Size = new System.Drawing.Size(310, 264);
+      this.lsbCommands.Size = new System.Drawing.Size(318, 264);
       this.lsbCommands.TabIndex = 1;
       this.lsbCommands.SelectedIndexChanged += new System.EventHandler(this.LsbCommandsSelectedIndexChanged);
       this.lsbCommands.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LsbCommandsKeyDown);
@@ -152,9 +166,9 @@
       // 
       this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.statusLabel});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 335);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 468);
       this.statusStrip1.Name = "statusStrip1";
-      this.statusStrip1.Size = new System.Drawing.Size(623, 22);
+      this.statusStrip1.Size = new System.Drawing.Size(631, 22);
       this.statusStrip1.TabIndex = 5;
       this.statusStrip1.Text = "statusStrip1";
       // 
@@ -164,11 +178,23 @@
       this.statusLabel.Size = new System.Drawing.Size(39, 17);
       this.statusLabel.Text = "Ready";
       // 
+      // lsbRobotMessages
+      // 
+      this.lsbRobotMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                  | System.Windows.Forms.AnchorStyles.Left)
+                  | System.Windows.Forms.AnchorStyles.Right)));
+      this.lsbRobotMessages.FormattingEnabled = true;
+      this.lsbRobotMessages.Location = new System.Drawing.Point(12, 337);
+      this.lsbRobotMessages.Name = "lsbRobotMessages";
+      this.lsbRobotMessages.Size = new System.Drawing.Size(607, 121);
+      this.lsbRobotMessages.TabIndex = 6;
+      // 
       // FormDriveControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(623, 357);
+      this.ClientSize = new System.Drawing.Size(631, 490);
+      this.Controls.Add(this.lsbRobotMessages);
       this.Controls.Add(this.statusStrip1);
       this.Controls.Add(this.grpBoxRobot);
       this.Controls.Add(this.grpBoxCommands);
@@ -196,6 +222,8 @@
     private System.Windows.Forms.Button btnRefresh;
     private System.Windows.Forms.StatusStrip statusStrip1;
     private System.Windows.Forms.ToolStripStatusLabel statusLabel;
+    private System.Windows.Forms.Button btnStatus;
+    private System.Windows.Forms.ListBox lsbRobotMessages;
   }
 }
 

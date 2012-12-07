@@ -34,7 +34,14 @@ namespace Testat2_GUIWin7
     }
 
     void _connector_OnMessageReceived(string message) {
-      statusLabel.Text = String.Format("Response: {0}", message);
+      if (lsbRobotMessages.InvokeRequired) {
+        lsbRobotMessages.Invoke(new Action<string>(_connector_OnMessageReceived), message);
+      } else {
+        statusLabel.Text = String.Format("Response: {0}", message);
+        lsbRobotMessages.Items.Add(message);
+        lsbRobotMessages.SelectedIndex = lsbRobotMessages.Items.Count - 1;
+        lsbRobotMessages.SelectedIndex = -1;
+      }
     }
 
     void ConnectWorkerRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
@@ -152,6 +159,7 @@ namespace Testat2_GUIWin7
       runArcView1.Enabled = state;
       runLineView1.Enabled = state;
       runTurnView1.Enabled = state;
+      btnStatus.Enabled = state;
     }
 
     private void BtnStartClick(object sender, EventArgs e)
@@ -181,6 +189,11 @@ namespace Testat2_GUIWin7
       } else {
         btnConnect.Enabled = false;
       }
+    }
+
+    private void BtnStatusClick(object sender, EventArgs e)
+    {
+      _connector.WriteLine("Status");
     }
   }
 }
