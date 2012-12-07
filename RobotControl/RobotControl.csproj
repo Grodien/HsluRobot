@@ -55,6 +55,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Constants.cs" />
     <Compile Include="DrivePatterns\BasePattern.cs" />
     <Compile Include="DrivePatterns\FindSpaceAndParkPattern.cs" />
     <Compile Include="DrivePatterns\RobotStoppedException.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Input\Switch.cs" />
     <Compile Include="Input\Switches.cs" />
     <Compile Include="Input\SwitchEventArgs.cs" />
+    <Compile Include="IOPortEx.cs" />
     <Compile Include="ObstacleMap.cs" />
     <Compile Include="Output\DigitalOut.cs" />
     <Compile Include="Output\DigitalOutHW.cs" />
@@ -95,12 +97,6 @@
     <Compile Include="RobotConsole.cs" />
     <Compile Include="Drive\Track.cs" />
     <Compile Include="World.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\RobotIO\RobotIO.csproj">
-      <Project>{B0B9F3B6-AF34-4C73-B8BC-CBFFE61D81F2}</Project>
-      <Name>RobotIO</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>

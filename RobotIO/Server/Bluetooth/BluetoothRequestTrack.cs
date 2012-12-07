@@ -1,11 +1,13 @@
-﻿namespace RobotIO.Server.Bluetooth
+﻿using RobotControl.Drive;
+
+namespace RobotIO.Server.Bluetooth
 {
   public class BluetoothRequestTrack : IRequestHandler
   {
     public string Process(string[] request)
     {
-
-      return "Track processed";
+      Track track = TrackParser.Parse(request);
+      return "Track processed as " + track;
     }
   }
 }

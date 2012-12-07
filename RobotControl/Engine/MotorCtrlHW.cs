@@ -126,7 +126,7 @@ namespace RobotControl.Engine
             {
                 lock (syncObj) // TODO_joc, hinzugefügt
                 {
-                    return IOPort.Read(_ioAddress);
+                    return IOPortEx.Read(_ioAddress);
                 }
             }
         }
@@ -185,9 +185,9 @@ namespace RobotControl.Engine
             lock (syncObj)
             {
                 Thread.Sleep(20);
-                IOPort.Write(_ioAddress, RESET);
+                IOPortEx.Write(_ioAddress, RESET);
                 Thread.Sleep(20);
-                IOPort.Write(_ioAddress, DEFINE_HOME);			// Define Home
+                IOPortEx.Write(_ioAddress, DEFINE_HOME);			// Define Home
                 Thread.Sleep(50);
                 SetPID(100, 20, 1000, 1000, 1);
                 //	SetPID(1500, 200, 8000, 1000, 1);
@@ -276,7 +276,7 @@ namespace RobotControl.Engine
         private void WriteCmd(byte cmd)
         {
             WaitReady();
-            IOPort.Write(_ioAddress, cmd);
+            IOPortEx.Write(_ioAddress, cmd);
         }
 
         /// <summary>
@@ -286,8 +286,8 @@ namespace RobotControl.Engine
         private void WriteShort(int val)
         {
             WaitReady();
-            IOPort.Write(_ioAddress + 1, (val >> 8) & 0xFF);
-            IOPort.Write(_ioAddress + 1, val & 0xFF);
+            IOPortEx.Write(_ioAddress + 1, (val >> 8) & 0xFF);
+            IOPortEx.Write(_ioAddress + 1, val & 0xFF);
         }
 
         /// <summary>
@@ -307,8 +307,8 @@ namespace RobotControl.Engine
         private int ReadShort()
         {
             WaitReady();
-            int val = IOPort.Read(_ioAddress + 1);
-            val = (val << 8) | IOPort.Read(_ioAddress + 1);
+            int val = IOPortEx.Read(_ioAddress + 1);
+            val = (val << 8) | IOPortEx.Read(_ioAddress + 1);
             return val;
         }
 

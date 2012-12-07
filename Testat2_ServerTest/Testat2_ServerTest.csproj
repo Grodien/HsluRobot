@@ -49,6 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\RobotControl\RobotControl.csproj">
+      <Project>{2367809C-C1C0-46FF-9BA1-24D9B73DA2D8}</Project>
+      <Name>RobotControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RobotIO_Win7\RobotIO_Win7.csproj">
       <Project>{898FDBC9-F2CF-4FBA-8A87-333A732BC2DA}</Project>
       <Name>RobotIO_Win7</Name>

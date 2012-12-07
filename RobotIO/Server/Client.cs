@@ -35,7 +35,7 @@ namespace RobotIO.Server
     public void SendResponse(string response)
     {
       Writer.WriteLine(response);
-      _stream.Flush();
+      Writer.Flush();
     }
   }
 }

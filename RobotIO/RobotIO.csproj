@@ -65,14 +65,17 @@
     <Compile Include="Server\Bluetooth\BluetoothRequestTrack.cs" />
     <Compile Include="Server\Bluetooth\BluetoothServer.cs" />
     <Compile Include="Server\Client.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="Server\HTTP\HttpClient.cs" />
     <Compile Include="Server\HTTP\HttpRequest.cs" />
     <Compile Include="Server\HTTP\HTTPServer.cs" />
-    <Compile Include="IOPort.cs" />
-    <Compile Include="IOPortEx.cs" />
     <Compile Include="Server\IRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RobotControl\RobotControl.csproj">
+      <Project>{2367809C-C1C0-46FF-9BA1-24D9B73DA2D8}</Project>
+      <Name>RobotControl</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
