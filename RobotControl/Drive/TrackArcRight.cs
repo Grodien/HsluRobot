@@ -20,5 +20,10 @@
         leftSpeed = -newVelocity;
       }
     }
+
+    public override string ToStringData()
+    {
+      return "TrackArcRight " + _angle + " " + _radius;
+    }
   }
 }

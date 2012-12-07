@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testat2_ServerTest", "Testa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotIO_Win7", "RobotIO_Win7\RobotIO_Win7.csproj", "{898FDBC9-F2CF-4FBA-8A87-333A732BC2DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testat2_GUIWin7", "Testat2_GUIWin7\Testat2_GUIWin7.csproj", "{2F3C83FF-750D-4E7D-B6A3-33F70908E8D9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{898FDBC9-F2CF-4FBA-8A87-333A732BC2DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{898FDBC9-F2CF-4FBA-8A87-333A732BC2DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{898FDBC9-F2CF-4FBA-8A87-333A732BC2DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F3C83FF-750D-4E7D-B6A3-33F70908E8D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F3C83FF-750D-4E7D-B6A3-33F70908E8D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F3C83FF-750D-4E7D-B6A3-33F70908E8D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F3C83FF-750D-4E7D-B6A3-33F70908E8D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -22,6 +22,9 @@ namespace RobotControl.Drive
   /// </remarks>
   public abstract class Track
   {
+    public const float DefaultAcceleration = 0.3f;
+    public const float DefaultMaxSpeed = 0.5f;
+
     protected float CurrentVelocity;
     protected float Length;
     protected bool Reverse;
@@ -68,7 +71,7 @@ namespace RobotControl.Drive
     /// </summary>
     public float NominalSpeed { get; protected set; }
 
-    public Track(float speed, float acceleration)
+    protected Track(float speed, float acceleration)
     {
       NominalSpeed = Math.Abs(speed);
       Acceleration = Math.Abs(acceleration);
@@ -106,5 +109,11 @@ namespace RobotControl.Drive
       ElapsedTime += timeInterval;
       CoveredLength += timeInterval*CurrentVelocity;
     }
+
+    public override string ToString() {
+      return ToStringData();
+    }
+
+    public abstract string ToStringData();
   }
 }

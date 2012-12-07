@@ -17,5 +17,9 @@ namespace RobotControl.Drive
         leftSpeed = -(newVelocity * Ratio);
       }
     }
+
+    public override string ToStringData() {
+      return "TrackArcLeft " + _angle + " " + _radius;
+    }
   }
 }

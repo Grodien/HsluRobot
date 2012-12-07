@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Server\AbstractServer.cs" />
+    <Compile Include="Server\Bluetooth\BluetoothCommands.cs" />
     <Compile Include="Server\Bluetooth\BluetoothRequestStart.cs" />
     <Compile Include="Server\Bluetooth\BluetoothRequestTrack.cs" />
     <Compile Include="Server\Bluetooth\BluetoothServer.cs" />

@@ -64,6 +64,7 @@
     <Compile Include="Drive\DriveInfo.cs" />
     <Compile Include="Drive\TrackArcLeft.cs" />
     <Compile Include="Drive\TrackLine.cs" />
+    <Compile Include="Drive\TrackParser.cs" />
     <Compile Include="Drive\TrackTurn.cs" />
     <Compile Include="Engine\DriveCtrl.cs" />
     <Compile Include="Engine\DriveCtrlHW.cs" />

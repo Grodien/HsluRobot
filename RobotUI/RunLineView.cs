@@ -5,6 +5,13 @@ namespace RobotUI
 {
   public partial class RunLineView : UserControl
   {
+
+    public string ButtonText
+    {
+      get { return BtnStart.Text; }
+      set { BtnStart.Text = value; }
+    }
+
     /// <summary>
     /// Occurs when [start clicked].
     /// </summary>
