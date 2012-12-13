@@ -564,11 +564,14 @@ namespace RobotControl.Drive
         _info.Position.X = x2;
         _info.Position.Y = y2;
         _info.Position.Angle = phi2/(float) Math.PI*180;
-        _oldInfo = _info;
-
-        if (OnPositionUpdated != null) {
-          OnPositionUpdated(_info.Position);
+        if (_oldInfo.Position.X != _info.Position.X 
+          || _oldInfo.Position.Y != _info.Position.Y) {
+            if (OnPositionUpdated != null)
+            {
+              OnPositionUpdated(_info.Position);
+            }
         }
+        _oldInfo = _info;
       }
     }
   }

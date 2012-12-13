@@ -83,7 +83,7 @@ namespace RobotControl.Drive
     {
       using (MemoryStream memoryStream = new MemoryStream())
       {
-        _image.GetImage().Save(memoryStream, ImageFormat.Jpeg);
+        _image.GetImage().Save(memoryStream, ImageFormat.Bmp);
         memoryStream.Position = 0;
 
         return Convert.ToBase64String(memoryStream.ToArray());

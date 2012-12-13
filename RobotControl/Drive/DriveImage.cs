@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace RobotControl.Drive
 {
   public class DriveImage
   {
-    private const float SizeOffset = 10f;
+    private const float SizeOffset = 1f;
     private readonly List<PositionInfo> _posList;
+    private readonly Font _font;
+    private readonly Brush _fontBrush;
+    private readonly Pen _penGrid2;
     private readonly SolidBrush _brushRobot;
     private readonly Pen _penAngle;
     private readonly Brush _brushRun;
+    private readonly Pen _penGrid1;
     private readonly Pen _penRadar;
     private readonly object _locker;
 
@@ -22,10 +27,14 @@ namespace RobotControl.Drive
     public DriveImage(Drive drive) {
       _posList = new List<PositionInfo>();
       _locker = new object();
-      _penAngle = new Pen(Color.Black, 6);
-      _penRadar = new Pen(Color.Green, 6);
+      _penGrid1 = new Pen(Color.Gray, 3);
+      _penGrid2 = new Pen(Color.Gray, 1);
+      _penAngle = new Pen(Color.Black, 2);
+      _penRadar = new Pen(Color.Green, 2);
       _brushRun = new SolidBrush(Color.Red);
-      _brushRobot = new SolidBrush(Color.Gray);
+      _font = new Font(FontFamily.GenericSerif, 8, FontStyle.Regular);
+      _fontBrush = new SolidBrush(Color.Black);
+      _brushRobot = new SolidBrush(Color.Red);
       drive.OnPositionUpdated += DriveOnOnPositionUpdated;
     }
 
@@ -103,17 +112,27 @@ namespace RobotControl.Drive
         _xMin = info.X; _xMax = info.X;
         _yMin = info.Y; _yMax = info.Y;
       } else {
-        _xMin = 0; _xMax = 500;
-        _yMin = 0; _yMax = 500;
+        _xMin = 0; _xMax = 0;
+        _yMin = 0; _yMax = 0;
       }
 
       for (int i = 1; i < itemCount; i++ ) {
-        PositionInfo info = tmpList[1];
-        if (info.X > _xMax) _xMax = info.X;
-        else if (info.X < _xMin) _xMin = info.X;
+        PositionInfo info = tmpList[i];
+        if (info.X > _xMax) {
+          _xMax = info.X;
+          _yMax = info.X;
+        } else if (info.X < _xMin) {
+          _xMin = info.X;
+          _yMin = info.X;
+        }
 
-        if (info.Y > _yMax) _yMax = info.Y;
-        else if (info.Y < _yMin) _yMin = info.Y;
+        if (info.Y > _yMax) {
+          _yMax = info.Y;
+          _xMax = info.Y;
+        } else if (info.Y < _yMin) {
+          _yMin = info.Y;
+          _xMin = info.Y;
+        }
       }
 
       _xMax += SizeOffset; _xMin -= SizeOffset;
@@ -122,6 +141,24 @@ namespace RobotControl.Drive
       using (Graphics g = Graphics.FromImage(bitmap))
       {
         g.Clear(Color.White);
+
+        // Vertikale Linien die >viewPort.xMin bzw. <viewPort.xMax sind zeichnen...
+        double y = _yMin - (_yMin % 0.5);
+        for (; y < _yMax; y += .5d)
+        {
+          int yScreen = YtoScreen(y);
+          g.DrawLine((y == 0d ? _penGrid1 : _penGrid2), 0, yScreen, _width, yScreen);
+          g.DrawString(y.ToString(CultureInfo.InvariantCulture), _font, _fontBrush, 5, yScreen + 3);
+        }
+
+        // Horizontale Linien >viewPort.yMin bzw. <viewPort.yMax sind zeichnen...
+        double x = _xMax - (_xMax % 0.5);
+        for (; x > _xMin; x -= .5d)
+        {
+          int xScreen = XtoScreen(x);
+          g.DrawLine((x == 0d ? _penGrid1 : _penGrid2), xScreen, 0, xScreen, _height);
+          g.DrawString(x.ToString(CultureInfo.InvariantCulture), _font, _fontBrush, xScreen + 3, 5);
+        }
 
         Robot robot = World.Robot;
         if (robot != null)
