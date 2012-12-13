@@ -30,7 +30,7 @@ namespace RobotIO.Server.Bluetooth
     {
       if (BluetoothRadio.IsSupported)
       {
-        //BluetoothRadio.PrimaryRadio.Name = "HSLU Robot - Team Bollhalder Bomatter";
+        BluetoothRadio.PrimaryRadio.Name = "HSLU Robot - Team Bollhalder Bomatter";
         BluetoothRadio.PrimaryRadio.Mode = RadioMode.Discoverable;
         System.Guid serviceName = new System.Guid(Constants.BluetoothServiceGuid);
         _listener = new BluetoothListener(serviceName);
