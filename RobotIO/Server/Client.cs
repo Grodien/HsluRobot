@@ -32,7 +32,7 @@ namespace RobotIO.Server
       return Reader.ReadLine();
     }
 
-    public void SendResponse(string response)
+    public virtual void SendResponse(string response)
     {
       Writer.WriteLine(response);
       Writer.Flush();

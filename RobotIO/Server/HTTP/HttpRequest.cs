@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using RobotControl;
-using RobotControl.Drive;
 
 namespace RobotIO.Server.HTTP
 {
@@ -8,22 +7,19 @@ namespace RobotIO.Server.HTTP
   {
     public string Process(string[] request)
     {
-      Movement movement = World.Robot.Movement;
+      string movement = World.Robot.Movement.ToString(true);
+
       StringBuilder builder = new StringBuilder();
+      builder.AppendLine("HTTP/1.0 200 OK");
+      builder.AppendLine("Server: ProgSY_Bollhalder_Bomatter 1.0");
+      builder.AppendLine("Content-Type: text/html");
+      //builder.AppendLine("Content-Type: image/bmp");
+      builder.AppendLine("Content-Length: {0}");
       builder.AppendLine();
-      builder.Append("---------- Status Report Fahrweg ---------\r\n");
-      builder.AppendFormat("Movement active: {0}\r\n", movement.Running);
-      builder.AppendFormat("Movement finished: {0}\r\n", movement.Finished);
-      var tracks = movement.Tracks;
-      //builder.AppendFormat("Movement done {0}m of {1}m\n", World.Robot.Drive);
-      builder.AppendFormat("# Tracks: {0} tracks.\r\n", tracks.Count);
-      int i = 0;
-      foreach (var track in tracks)
-      {
-        builder.AppendFormat("Track {0}: Finished {1} - Detail <{2}>\r\n", ++i, track.Value, track.Key);
-      }
-      if (tracks.Count > 0)
-        builder.AppendLine();
+      builder.Append(HttpClient.HeaderSplit);
+      builder.Append("<html><head></head><body><img src=\"data:image/bmp;base64,");
+      builder.Append(movement);
+      builder.Append("\"/></body></html>");
 
       return builder.ToString();
     }
