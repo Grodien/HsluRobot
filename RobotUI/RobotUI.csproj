@@ -68,6 +68,7 @@
     <Compile Include="ConsoleView.Designer.cs">
       <DependentUpon>ConsoleView.cs</DependentUpon>
     </Compile>
+    <Compile Include="DriveImage.cs" />
     <Compile Include="RunArcView.cs">
       <SubType>UserControl</SubType>
     </Compile>
