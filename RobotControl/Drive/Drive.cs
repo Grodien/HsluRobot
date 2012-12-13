@@ -415,7 +415,12 @@ namespace RobotControl.Drive
               float s;
               lock (_tracksToRun)
               {
-                s = _tracksToRun.Sum(track => track.ResidualLength);
+                if (_actualTrack.GetType() == typeof(TrackTurn)) {
+                  s = _actualTrack.ResidualLength;
+                } else {
+                  s = _tracksToRun.TakeWhile(track => track.GetType() != typeof(TrackTurn))
+                  .Sum(track => track.ResidualLength);
+                }
               }
               if (s >= 0)
               {
