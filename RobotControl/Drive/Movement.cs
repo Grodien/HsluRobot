@@ -11,11 +11,10 @@ namespace RobotControl.Drive
   public class Movement
   {
     private readonly IDictionary<Track, bool> _tracks;
-
+    private readonly DriveImage _image;
     public bool Running { get; private set; }
 
     public bool Finished { get; private set; }
-    public Bitmap Image { get; private set; }
 
     public IDictionary<Track, bool> Tracks { 
       get
@@ -30,6 +29,7 @@ namespace RobotControl.Drive
     public Movement()
     {
       _tracks = new Dictionary<Track, bool>();
+      _image = new DriveImage(World.Robot.Drive);
       World.Robot.Drive.TrackDone += DriveOnTrackDone;
     }
 
@@ -63,7 +63,7 @@ namespace RobotControl.Drive
       Running = false;
       Finished = false;
       _tracks.Clear();
-      Image = new Bitmap(60, 50);
+      _image.Reset();
       World.Robot.Drive.Stop();
     }
 
@@ -79,6 +79,17 @@ namespace RobotControl.Drive
       }
     }
 
+    public string GetBase64Image()
+    {
+      using (MemoryStream memoryStream = new MemoryStream())
+      {
+        _image.GetImage().Save(memoryStream, ImageFormat.Jpeg);
+        memoryStream.Position = 0;
+
+        return Convert.ToBase64String(memoryStream.ToArray());
+      }
+    }
+
     public override string ToString()
     {
       return ToString(false);
@@ -86,7 +97,7 @@ namespace RobotControl.Drive
 
     public string ToString(bool isHtml)
     {
-      string newLine = isHtml ? "\r\n" : "<br/>";
+      string newLine = isHtml ? "<br/>" : "\r\n";
 
       StringBuilder builder = new StringBuilder();
       builder.AppendFormat("---------- Status Report Fahrweg ---------{0}", newLine);
@@ -110,23 +121,9 @@ namespace RobotControl.Drive
 
       if (isHtml)
       {
-        NewMovement();
-        using (MemoryStream memoryStream = new MemoryStream())
-        //using (FileStream memoryStream = new FileStream("Test.bmp", FileMode.Open))
-        {
-          Image.Save(memoryStream, ImageFormat.Bmp);
-          //Image.Save("Test.bmp", ImageFormat.Bmp);
-
-          memoryStream.Position = 0;
-          using (StreamReader stream = new StreamReader(memoryStream) )
-          {
-            System.Convert.ToBase64String()
-            UTF8Encoding utf8 = new UTF8Encoding();
-
-            return utf8.GetString(memoryStream.ToArray(), 0, (int)memoryStream.Length);
-            //builder.Append("<img src=\""+stream.ReadToEnd()+"\"/>");
-          }
-        }
+        builder.Append("<img src=\"data:image/jpeg;base64,");
+        builder.Append(GetBase64Image());
+        builder.Append("\"/>");
       }
 
       return builder.ToString(); 

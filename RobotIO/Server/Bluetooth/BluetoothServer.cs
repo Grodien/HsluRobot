@@ -1,7 +1,7 @@
-﻿using System.Net.Sockets;
+﻿using System.Threading;
+using System.Net.Sockets;
 using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Sockets;
-using RobotIO.Server.HTTP;
 
 namespace RobotIO.Server.Bluetooth
 {
@@ -17,13 +17,14 @@ namespace RobotIO.Server.Bluetooth
     protected override void AddRequestHandlers()
     {
       RequestDict.Add(BluetoothCommands.Start, new BluetoothRequestStart());
+      RequestDict.Add(BluetoothCommands.Image, new BluetoothRequestImage());
+      RequestDict.Add(BluetoothCommands.Status, new BluetoothRequestStatus());
 
       var tmpHandler = new BluetoothRequestTrack();
       RequestDict.Add(BluetoothCommands.TrackLine, tmpHandler);
       RequestDict.Add(BluetoothCommands.TrackTurn, tmpHandler);
       RequestDict.Add(BluetoothCommands.TrackArcLeft, tmpHandler);
       RequestDict.Add(BluetoothCommands.TrackArcRight, tmpHandler);
-      RequestDict.Add(BluetoothCommands.Status, new HttpRequest());
     }
 
     protected override void StartListener()
@@ -39,9 +40,14 @@ namespace RobotIO.Server.Bluetooth
         while (!Stopped)
         {
           BluetoothClient client = _listener.AcceptBluetoothClient();
-          ProcessClientSync(client.Client.RemoteEndPoint.ToString(), client.GetStream());
+          ProcessClientSync(client.Client.RemoteEndPoint.ToString(), client.GetStream(), () => FinishCallback(client));
         }
       }
+    }
+
+    private void FinishCallback(BluetoothClient client)
+    {
+      client.Close();
     }
 
     protected override void OnStop()

@@ -1,4 +1,5 @@
-﻿using System.Net.Sockets;
+﻿using System.Threading;
+using System.Net.Sockets;
 
 namespace RobotIO.Server.HTTP
 {
@@ -26,8 +27,19 @@ namespace RobotIO.Server.HTTP
       while (!Stopped)
       {
         TcpClient client = _tcpListener.AcceptTcpClient();
-        ProcessClientSync(client.Client.RemoteEndPoint.ToString(), client.GetStream());
+        ProcessClientSync(client.Client.RemoteEndPoint.ToString(), client.GetStream(), () => FinishCallbackAsync(client));
       }
+    }
+
+    private void FinishCallbackAsync(TcpClient client)
+    {
+      ThreadPool.QueueUserWorkItem(FinishCallback, client);
+    }
+
+    private void FinishCallback(object state)
+    {
+      Thread.Sleep(10000);
+      ((TcpClient) state).Close();
     }
 
     protected override void OnStop()

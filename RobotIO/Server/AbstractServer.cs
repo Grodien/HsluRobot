@@ -78,7 +78,7 @@ namespace RobotIO.Server
 
     protected abstract Client CreateClient(string ip, NetworkStream networkStream);
 
-    protected void ProcessClientSync(string ip, NetworkStream networkStream)
+    protected void ProcessClientSync(string ip, NetworkStream networkStream, Action finishedCallback)
     {
       try
       {
@@ -93,8 +93,8 @@ namespace RobotIO.Server
       {
         Console.WriteLine("{0}: Client <{1}> finished.", Identifier, ip);
         networkStream.Flush();
-        Thread.Sleep(500);  
-        networkStream.Close();
+        if (finishedCallback != null)
+          finishedCallback();
       }
     }
 

@@ -1,8 +1,5 @@
-﻿using System.Drawing.Imaging;
-using System.IO;
-using System.Net.Sockets;
+﻿using System.Net.Sockets;
 using System.Text;
-using RobotControl;
 
 namespace RobotIO.Server.HTTP
 {
@@ -31,24 +28,12 @@ namespace RobotIO.Server.HTTP
     {
       string[] strings = response.Split(HeaderSplit);
       //HTML
-      //byte[] contentHTML = Encoding.UTF8.GetBytes(strings[1]);
+      byte[] contentHtml = Encoding.UTF8.GetBytes(strings[1]);
       //Header
-      //byte[] header = Encoding.ASCII.GetBytes(string.Format(strings[0], contentHTML.Length));
-      //byte[] header = Encoding.ASCII.GetBytes(strings[0]);
+      byte[] header = Encoding.ASCII.GetBytes(string.Format(strings[0], contentHtml.Length));
 
-
-
-      Writer.Write(string.Format(strings[0], strings[1].Length));
-      Writer.Write(strings[1]);
-      /*Writer.Write("<html><head></head><body><img src=\"data:image/bmp;,");
-      using (MemoryStream ms = new MemoryStream())
-      {
-        World.Robot.Movement.Image.Save(ms, ImageFormat.Bmp);
-        Writer.Write(Encoding.UTF8.GetString(ms.ToArray()));
-      }
-      Writer.Write("\"/></body></html>");*/
-
-      //Writer.BaseStream.Write(contentHTML, 0, contentHTML.Length);
+      Writer.BaseStream.Write(header, 0, header.Length);
+      Writer.BaseStream.Write(contentHtml, 0, contentHtml.Length);
     }
   }
 }

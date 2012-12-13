@@ -59,6 +59,7 @@
     <Compile Include="DrivePatterns\BasePattern.cs" />
     <Compile Include="DrivePatterns\FindSpaceAndParkPattern.cs" />
     <Compile Include="DrivePatterns\RobotStoppedException.cs" />
+    <Compile Include="Drive\DriveImage.cs" />
     <Compile Include="Drive\TrackArc.cs" />
     <Compile Include="Drive\TrackArcRight.cs" />
     <Compile Include="Drive\Drive.cs" />

@@ -53,8 +53,14 @@
     <Compile Include="..\RobotIO\Server\Bluetooth\BluetoothCommands.cs">
       <Link>Server\Bluetooth\BluetoothCommands.cs</Link>
     </Compile>
+    <Compile Include="..\RobotIO\Server\Bluetooth\BluetoothRequestImage.cs">
+      <Link>Server\Bluetooth\BluetoothRequestImage.cs</Link>
+    </Compile>
     <Compile Include="..\RobotIO\Server\Bluetooth\BluetoothRequestStart.cs">
       <Link>Server\Bluetooth\BluetoothRequestStart.cs</Link>
+    </Compile>
+    <Compile Include="..\RobotIO\Server\Bluetooth\BluetoothRequestStatus.cs">
+      <Link>Server\Bluetooth\BluetoothRequestStatus.cs</Link>
     </Compile>
     <Compile Include="..\RobotIO\Server\Bluetooth\BluetoothRequestTrack.cs">
       <Link>Server\Bluetooth\BluetoothRequestTrack.cs</Link>

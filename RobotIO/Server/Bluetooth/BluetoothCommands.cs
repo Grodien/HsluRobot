@@ -8,5 +8,6 @@
     public const string TrackArcLeft = "TrackArcLeft";
     public const string TrackArcRight = "TrackArcRight";
     public const string Status = "Status";
+    public const string Image = "Image";
   }
 }

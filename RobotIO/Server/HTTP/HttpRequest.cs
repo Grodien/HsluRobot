@@ -13,13 +13,13 @@ namespace RobotIO.Server.HTTP
       builder.AppendLine("HTTP/1.0 200 OK");
       builder.AppendLine("Server: ProgSY_Bollhalder_Bomatter 1.0");
       builder.AppendLine("Content-Type: text/html");
-      //builder.AppendLine("Content-Type: image/bmp");
       builder.AppendLine("Content-Length: {0}");
       builder.AppendLine();
+
       builder.Append(HttpClient.HeaderSplit);
-      builder.Append("<html><head></head><body><img src=\"data:image/bmp;base64,");
+      builder.Append("<html><head></head><body>");
       builder.Append(movement);
-      builder.Append("\"/></body></html>");
+      builder.Append("</body></html>");
 
       return builder.ToString();
     }
