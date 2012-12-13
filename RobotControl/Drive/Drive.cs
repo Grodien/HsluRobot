@@ -36,6 +36,8 @@ namespace RobotControl.Drive
 
     private readonly List<Track> _tracksToRun;
 
+    public event Action<PositionInfo> OnPositionUpdated;
+
     /// <summary>
     /// Initialisiert den Antrieb des Roboters
     /// </summary>
@@ -415,7 +417,12 @@ namespace RobotControl.Drive
               float s;
               lock (_tracksToRun)
               {
-                s = _tracksToRun.Sum(track => track.ResidualLength);
+                if (_actualTrack.GetType() == typeof(TrackTurn)) {
+                  s = _actualTrack.ResidualLength;
+                } else {
+                  s = _tracksToRun.TakeWhile(track => track.GetType() != typeof(TrackTurn))
+                  .Sum(track => track.ResidualLength);
+                }
               }
               if (s >= 0)
               {
@@ -558,6 +565,10 @@ namespace RobotControl.Drive
         _info.Position.Y = y2;
         _info.Position.Angle = phi2/(float) Math.PI*180;
         _oldInfo = _info;
+
+        if (OnPositionUpdated != null) {
+          OnPositionUpdated(_info.Position);
+        }
       }
     }
   }
