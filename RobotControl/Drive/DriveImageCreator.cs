@@ -7,7 +7,7 @@ namespace RobotControl.Drive
 {
   public class DriveImageCreator
   {
-    private const float SizeOffset = 1f;
+    private const float SizeOffset = 0.5f;
     private readonly Font _font;
     private readonly Brush _fontBrush;
     private readonly Pen _penGrid2;
