@@ -108,24 +108,31 @@ namespace RobotControl.Drive
         if (floatPositions[i] > xMax)
         {
           xMax = floatPositions[i];
-          yMax = floatPositions[i];
         }
         else if (floatPositions[i] < xMin)
         {
           xMin = floatPositions[i];
-          yMin = floatPositions[i];
         }
 
         if (floatPositions[i+1] > yMax)
         {
           yMax = floatPositions[i+1];
-          xMax = floatPositions[i+1];
         }
         else if (floatPositions[i+1] < yMin)
         {
           yMin = floatPositions[i+1];
-          xMin = floatPositions[i+1];
         }
+      }
+
+      float xDiff = Math.Abs(xMin) + Math.Abs(xMax);
+      float yDiff = Math.Abs(yMin) + Math.Abs(yMax);
+      float xyDiff = xDiff - yDiff;
+      if (xyDiff < 0) {
+        xMin -= Math.Abs(xyDiff/2);
+        xMax += Math.Abs(xyDiff/2);
+      } else {
+        yMin -= Math.Abs(xyDiff / 2);
+        yMax += Math.Abs(xyDiff / 2);
       }
 
       xMax += SizeOffset; xMin -= SizeOffset;
