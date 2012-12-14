@@ -22,7 +22,7 @@ namespace RobotIO.Server.Bluetooth
                      .Append(positionInfo.Y).Append('¿');
       }
       //Angle for last position
-      stringBuilder.Append(posInfos[posInfos.Count].Angle).Append('¿');
+      stringBuilder.Append(posInfos[posInfos.Count-1].Angle).Append('¿');
 
       //Antenna Position offset
       var antennaPosition = World.Robot.Radar.AntennaPosition;

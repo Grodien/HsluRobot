@@ -41,9 +41,14 @@ namespace Testat2_GUIWin7
     void _connector_OnMessageReceived(string message) {
       if (lsbRobotMessages.InvokeRequired) {
         lsbRobotMessages.Invoke(new Action<string>(_connector_OnMessageReceived), message);
-      } else {
-        statusLabel.Text = String.Format("Response: {0}", message);
-        lsbRobotMessages.Items.Add(message);
+      } else
+      {
+        var messageParts = message.Split('¿');
+        statusLabel.Text = String.Format("Response: {0}", messageParts[0]);
+        foreach (var messagePart in messageParts)
+        {
+          lsbRobotMessages.Items.Add(message);
+        }
         lsbRobotMessages.SelectedIndex = lsbRobotMessages.Items.Count - 1;
         lsbRobotMessages.SelectedIndex = -1;
       }

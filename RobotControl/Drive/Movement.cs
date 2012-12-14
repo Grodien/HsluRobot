@@ -1,11 +1,9 @@
 ﻿using System;
-using System.IO;
-using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
-using BitMiracle.LibJpeg;
 
 namespace RobotControl.Drive
 {
@@ -89,9 +87,7 @@ namespace RobotControl.Drive
     {
       using (MemoryStream memoryStream = new MemoryStream())
       {
-        var image = _image.GetImage();
-        var jpeg = new JpegImage(image);
-        jpeg.WriteJpeg(memoryStream);
+        _image.GetImage().Save(memoryStream, ImageFormat.Bmp);
         memoryStream.Position = 0;
         return Convert.ToBase64String(memoryStream.ToArray());
       }
@@ -104,7 +100,7 @@ namespace RobotControl.Drive
 
     public string ToString(bool isHtml)
     {
-      string newLine = isHtml ? "<br/>" : "\r\n";
+      string newLine = isHtml ? "<br/>" : "¿";
 
       StringBuilder builder = new StringBuilder();
       builder.AppendFormat("---------- Status Report Fahrweg ---------{0}", newLine);

@@ -35,6 +35,7 @@ namespace RobotIO.Server.Bluetooth
           BluetoothRadio.PrimaryRadio.Name = "HSLU Robot - Team Bollhalder Bomatter";
         BluetoothRadio.PrimaryRadio.Mode = RadioMode.Discoverable;
         System.Guid serviceName = new System.Guid(Constants.BluetoothServiceGuid);
+        Log("{0}: MAC: {1} Name {2}", Identifier, BluetoothRadio.PrimaryRadio.LocalAddress, BluetoothRadio.PrimaryRadio.Name);
         _listener = new BluetoothListener(serviceName);
         _listener.ServiceName = serviceName.ToString();
         _listener.Start();

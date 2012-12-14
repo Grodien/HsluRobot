@@ -13,7 +13,8 @@ namespace RobotIO.Server.Bluetooth
 
     public string Process(string[] request)
     {
-      return string.Format("{0:0000}{1}", ResponseIdentifier, DoProcess(request));
+      int ident = (int) (object) ResponseIdentifier;
+      return string.Format("{0:0000}{1}", ident, DoProcess(request));
     }
 
     protected abstract string DoProcess(string[] request);

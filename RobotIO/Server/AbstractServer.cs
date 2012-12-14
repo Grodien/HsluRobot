@@ -117,7 +117,7 @@ namespace RobotIO.Server
           Console.WriteLine("{0}: Client <{1}> Request: <{2}>", Identifier, client.IP, request);
           string response = handler.Process(requestParts);
           
-          Console.WriteLine("{0}: Client <{1}> Response: {2,100}", Identifier, client.IP, response);
+          Console.WriteLine("{0}: Client <{1}> Response: {2}", Identifier, client.IP, response.Length > 100 ? response.Substring(0,100) : response);
           if (!string.IsNullOrEmpty(response))
           {
             client.SendResponse(response);
