@@ -13,6 +13,7 @@ namespace RobotControl.Drive
     {
       _posList = new List<PositionInfo>();
       _creator = new DriveImageCreator();
+      _posList.Add(World.Robot.Drive.Position);
       drive.OnPositionUpdated += DriveOnOnPositionUpdated;
     }
     
@@ -47,6 +48,7 @@ namespace RobotControl.Drive
       lock (_locker)
       {
         _posList.Clear();
+        _posList.Add(World.Robot.Drive.Position);
       }
     }
 
