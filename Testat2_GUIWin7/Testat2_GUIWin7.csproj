@@ -99,10 +99,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\JPEG\JPEG.csproj">
-      <Project>{F73B516D-5C38-4AFB-B863-2C16D7714054}</Project>
-      <Name>JPEG</Name>
-    </ProjectReference>
     <ProjectReference Include="..\RobotUI\RobotUI.csproj">
       <Project>{5703687F-88F2-4A96-A96A-11303F42CB37}</Project>
       <Name>RobotUI</Name>

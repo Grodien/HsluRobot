@@ -101,12 +101,6 @@
     <Compile Include="Drive\Track.cs" />
     <Compile Include="World.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\JPEG\JPEG.csproj">
-      <Project>{F73B516D-5C38-4AFB-B863-2C16D7714054}</Project>
-      <Name>JPEG</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
