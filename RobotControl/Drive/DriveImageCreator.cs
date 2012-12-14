@@ -7,7 +7,7 @@ namespace RobotControl.Drive
 {
   public class DriveImageCreator
   {
-    private const float SizeOffset = 0.5f;
+    private const float SizeOffset = 1f;
     private readonly Font _font;
     private readonly Brush _fontBrush;
     private readonly Pen _penGrid2;
@@ -114,7 +114,7 @@ namespace RobotControl.Drive
 
     private float[] CalculateMinMaxXY(IList<PositionInfo> tmpList)
     {
-      float xMin, xMax, yMin, yMax = 0f;
+      float xMin, xMax, yMin, yMax;
       int itemCount = tmpList.Count;
       if (itemCount > 0)
       {
@@ -150,15 +150,15 @@ namespace RobotControl.Drive
         }
       }
 
-      float xDiff = Math.Abs(xMin) + Math.Abs(xMax);
-      float yDiff = Math.Abs(yMin) + Math.Abs(yMax);
+      float xDiff = xMax - xMin;
+      float yDiff = yMax - yMin;
       float xyDiff = xDiff - yDiff;
       if (xyDiff < 0) {
-        xMin -= Math.Abs(xyDiff/2);
-        xMax -= Math.Abs(xyDiff / 2);
+        xMin -= Math.Abs(xyDiff / 2);
+        xMax += Math.Abs(xyDiff / 2);
       } else {
         yMin -= Math.Abs(xyDiff / 2);
-        yMax -= Math.Abs(xyDiff / 2);
+        yMax += Math.Abs(xyDiff / 2);
       }
 
       xMax += SizeOffset; xMin -= SizeOffset;
