@@ -84,9 +84,8 @@ namespace RobotControl.Drive
     {
       string[] splittedPositions = positions.Split('¿');
       PositionInfo antennaPosition;
-      List<PositionInfo> positionList = new List<PositionInfo>();
       float distance;
-      ConvertToPositionList(splittedPositions, positionList, out antennaPosition, out distance);
+      List<PositionInfo> positionList = ConvertToPositionList(splittedPositions, out antennaPosition, out distance);
       float[] bounderies = CalculateMinMaxXY(positionList);
       DrawImage(bitmap, positionList, antennaPosition, distance, bounderies[0], bounderies[1], bounderies[2], bounderies[3]);
     }
@@ -96,8 +95,9 @@ namespace RobotControl.Drive
       g.Clear(Color.White);
     }
 
-    private void ConvertToPositionList(string[] positions, List<PositionInfo> positionList, out PositionInfo antennaPosition, out float distance)
+    private List<PositionInfo> ConvertToPositionList(string[] positions, out PositionInfo antennaPosition, out float distance)
     {
+      List<PositionInfo> positionList = new List<PositionInfo>();
       for (int i = 0; i < positions.Length-4; i += 2)
       {
         PositionInfo info = new PositionInfo(float.Parse(positions[i]), float.Parse(positions[i+1]), 0);
@@ -108,6 +108,8 @@ namespace RobotControl.Drive
       positionList[positionList.Count - 1] = new PositionInfo(lastPos.X, lastPos.Y, float.Parse(positions[positions.Length - 4]));
       antennaPosition = new PositionInfo(float.Parse(positions[positions.Length-3]), float.Parse(positions[positions.Length-2]),0);
       distance = float.Parse(positions[positions.Length - 1]);
+
+      return positionList;
     }
 
     private float[] CalculateMinMaxXY(IList<PositionInfo> tmpList)
