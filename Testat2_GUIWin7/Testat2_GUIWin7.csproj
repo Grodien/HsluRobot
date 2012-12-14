@@ -65,10 +65,19 @@
     <Compile Include="FormDriveControl.Designer.cs">
       <DependentUpon>FormDriveControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="LiveViewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LiveViewForm.Designer.cs">
+      <DependentUpon>LiveViewForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormDriveControl.resx">
       <DependentUpon>FormDriveControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LiveViewForm.resx">
+      <DependentUpon>LiveViewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -90,6 +99,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\JPEG\JPEG.csproj">
+      <Project>{F73B516D-5C38-4AFB-B863-2C16D7714054}</Project>
+      <Name>JPEG</Name>
+    </ProjectReference>
     <ProjectReference Include="..\RobotUI\RobotUI.csproj">
       <Project>{5703687F-88F2-4A96-A96A-11303F42CB37}</Project>
       <Name>RobotUI</Name>

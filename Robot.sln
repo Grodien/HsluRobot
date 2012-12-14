@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testat2_GUIWin7", "Testat2_
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testat2_Robot", "Testat2_Robot\Testat2_Robot.csproj", "{C149113C-594A-4ABE-A51E-A2D8FD9D187F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JPEG", "JPEG\JPEG.csproj", "{F73B516D-5C38-4AFB-B863-2C16D7714054}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +137,10 @@ Global
 		{C149113C-594A-4ABE-A51E-A2D8FD9D187F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C149113C-594A-4ABE-A51E-A2D8FD9D187F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C149113C-594A-4ABE-A51E-A2D8FD9D187F}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{F73B516D-5C38-4AFB-B863-2C16D7714054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F73B516D-5C38-4AFB-B863-2C16D7714054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F73B516D-5C38-4AFB-B863-2C16D7714054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F73B516D-5C38-4AFB-B863-2C16D7714054}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

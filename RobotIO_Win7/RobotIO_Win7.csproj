@@ -50,6 +50,9 @@
     <Compile Include="..\RobotIO\Server\AbstractServer.cs">
       <Link>Server\AbstractServer.cs</Link>
     </Compile>
+    <Compile Include="..\RobotIO\Server\Bluetooth\BluetoothBaseRequest.cs">
+      <Link>Server\Bluetooth\BluetoothBaseRequest.cs</Link>
+    </Compile>
     <Compile Include="..\RobotIO\Server\Bluetooth\BluetoothCommands.cs">
       <Link>Server\Bluetooth\BluetoothCommands.cs</Link>
     </Compile>

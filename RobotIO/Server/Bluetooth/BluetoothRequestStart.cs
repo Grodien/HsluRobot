@@ -2,9 +2,14 @@
 
 namespace RobotIO.Server.Bluetooth
 {
-  public class BluetoothRequestStart : IRequestHandler
+  public class BluetoothRequestStart : BluetoothBaseRequest<BluetoothCommandResponse>
   {
-    public string Process(string[] request)
+    public BluetoothRequestStart()
+      : base(BluetoothCommandResponse.Started)
+    {
+    }
+
+    protected override string DoProcess(string[] request)
     {
       World.Robot.Movement.StartMovement();
       return "Process Start";

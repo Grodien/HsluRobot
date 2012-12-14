@@ -3,9 +3,14 @@ using RobotControl.Drive;
 
 namespace RobotIO.Server.Bluetooth
 {
-  public class BluetoothRequestTrack : IRequestHandler
+  public class BluetoothRequestTrack : BluetoothBaseRequest<BluetoothCommandResponse>
   {
-    public string Process(string[] request)
+    public BluetoothRequestTrack() 
+      : base(BluetoothCommandResponse.TrackReceived)
+    {
+    }
+
+    protected override string DoProcess(string[] request)
     {
       Track track = TrackParser.Parse(request);
       World.Robot.Movement.AddTrack(track);

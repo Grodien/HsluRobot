@@ -41,6 +41,7 @@
       this.statusStrip1 = new System.Windows.Forms.StatusStrip();
       this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
       this.lsbRobotMessages = new System.Windows.Forms.ListBox();
+      this.btnLive = new System.Windows.Forms.Button();
       this.grpBoxCommands.SuspendLayout();
       this.grpBoxRobot.SuspendLayout();
       this.statusStrip1.SuspendLayout();
@@ -95,6 +96,7 @@
       // 
       this.grpBoxRobot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                   | System.Windows.Forms.AnchorStyles.Right)));
+      this.grpBoxRobot.Controls.Add(this.btnLive);
       this.grpBoxRobot.Controls.Add(this.btnStatus);
       this.grpBoxRobot.Controls.Add(this.btnRefresh);
       this.grpBoxRobot.Controls.Add(this.btnConnect);
@@ -110,9 +112,9 @@
       // btnStatus
       // 
       this.btnStatus.Enabled = false;
-      this.btnStatus.Location = new System.Drawing.Point(168, 16);
+      this.btnStatus.Location = new System.Drawing.Point(135, 16);
       this.btnStatus.Name = "btnStatus";
-      this.btnStatus.Size = new System.Drawing.Size(75, 23);
+      this.btnStatus.Size = new System.Drawing.Size(60, 23);
       this.btnStatus.TabIndex = 5;
       this.btnStatus.Text = "Status";
       this.btnStatus.UseVisualStyleBackColor = true;
@@ -122,7 +124,7 @@
       // 
       this.btnRefresh.Location = new System.Drawing.Point(6, 16);
       this.btnRefresh.Name = "btnRefresh";
-      this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+      this.btnRefresh.Size = new System.Drawing.Size(60, 23);
       this.btnRefresh.TabIndex = 4;
       this.btnRefresh.Text = "Search";
       this.btnRefresh.UseVisualStyleBackColor = true;
@@ -131,9 +133,9 @@
       // btnConnect
       // 
       this.btnConnect.Enabled = false;
-      this.btnConnect.Location = new System.Drawing.Point(87, 16);
+      this.btnConnect.Location = new System.Drawing.Point(70, 16);
       this.btnConnect.Name = "btnConnect";
-      this.btnConnect.Size = new System.Drawing.Size(75, 23);
+      this.btnConnect.Size = new System.Drawing.Size(60, 23);
       this.btnConnect.TabIndex = 3;
       this.btnConnect.Text = "Connect";
       this.btnConnect.UseVisualStyleBackColor = true;
@@ -142,9 +144,9 @@
       // btnStart
       // 
       this.btnStart.Enabled = false;
-      this.btnStart.Location = new System.Drawing.Point(249, 16);
+      this.btnStart.Location = new System.Drawing.Point(265, 16);
       this.btnStart.Name = "btnStart";
-      this.btnStart.Size = new System.Drawing.Size(75, 23);
+      this.btnStart.Size = new System.Drawing.Size(60, 23);
       this.btnStart.TabIndex = 2;
       this.btnStart.Text = "Start";
       this.btnStart.UseVisualStyleBackColor = true;
@@ -189,6 +191,17 @@
       this.lsbRobotMessages.Size = new System.Drawing.Size(607, 121);
       this.lsbRobotMessages.TabIndex = 6;
       // 
+      // btnLive
+      // 
+      this.btnLive.Enabled = false;
+      this.btnLive.Location = new System.Drawing.Point(200, 16);
+      this.btnLive.Name = "btnLive";
+      this.btnLive.Size = new System.Drawing.Size(60, 23);
+      this.btnLive.TabIndex = 6;
+      this.btnLive.Text = "LiveViewForm";
+      this.btnLive.UseVisualStyleBackColor = true;
+      this.btnLive.Click += new System.EventHandler(this.BtnLiveClick);
+      // 
       // FormDriveControl
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -224,6 +237,7 @@
     private System.Windows.Forms.ToolStripStatusLabel statusLabel;
     private System.Windows.Forms.Button btnStatus;
     private System.Windows.Forms.ListBox lsbRobotMessages;
+    private System.Windows.Forms.Button btnLive;
   }
 }
 

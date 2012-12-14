@@ -10,6 +10,7 @@ using InTheHand.Net;
 using InTheHand.Net.Bluetooth;
 using InTheHand.Net.Sockets;
 using RobotControl.Drive;
+using RobotIO.Server.Bluetooth;
 using Testat2_GUIWin7.Bluetooth;
 
 namespace Testat2_GUIWin7
@@ -19,12 +20,16 @@ namespace Testat2_GUIWin7
     private BluetoothConnector _connector;
     private BackgroundWorker _discoverWorker;
     private BackgroundWorker _connectWorker;
+    private LiveViewForm _liveViewFormForm;
+    private readonly object _liveViewFormFormLocker = new object();
 
     public FormDriveControl()
     {
       InitializeComponent();
       _connector = new BluetoothConnector();
-      _connector.OnMessageReceived += _connector_OnMessageReceived;
+      _connector.SubscribeTo(_connector_OnMessageReceived, BluetoothCommandResponse.Started, 
+                                                           BluetoothCommandResponse.Status, 
+                                                           BluetoothCommandResponse.TrackReceived);
       _connectWorker = new BackgroundWorker();
       _connectWorker.DoWork += ConnectWorkerOnDoWork;
       _connectWorker.RunWorkerCompleted += ConnectWorkerRunWorkerCompleted;
@@ -154,7 +159,9 @@ namespace Testat2_GUIWin7
       }
     }
 
-    private void SetControlState(bool state) {
+    private void SetControlState(bool state)
+    {
+      btnLive.Enabled = state;
       btnStart.Enabled = state;
       runArcView1.Enabled = state;
       runLineView1.Enabled = state;
@@ -167,7 +174,7 @@ namespace Testat2_GUIWin7
       foreach (var item in lsbCommands.Items) {
           _connector.WriteLine(item.ToString());
       }
-      _connector.WriteLine("Start");
+      _connector.WriteLine(BluetoothCommands.Start);
     }
 
     private void BtnRefreshClick(object sender, EventArgs e)
@@ -193,7 +200,25 @@ namespace Testat2_GUIWin7
 
     private void BtnStatusClick(object sender, EventArgs e)
     {
-      _connector.WriteLine("Status");
+      _connector.WriteLine(BluetoothCommands.Status);
+    }
+
+    private void BtnLiveClick(object sender, EventArgs e)
+    {
+      lock(_liveViewFormFormLocker)
+      {
+        if (_liveViewFormForm == null)
+        {
+          _liveViewFormForm = new LiveViewForm(_connector.WriteLine);
+          _connector.SubscribeTo(_liveViewFormForm.OnMessageReceived, BluetoothCommandResponse.AllPositions);
+          _liveViewFormForm.Closed += (o, ea) =>
+                                        {
+                                          _connector.Unsubscribe(_liveViewFormForm.OnMessageReceived, BluetoothCommandResponse.AllPositions);
+                                          _liveViewFormForm = null;
+                                        };
+          _liveViewFormForm.Show();
+        }
+      }
     }
   }
 }

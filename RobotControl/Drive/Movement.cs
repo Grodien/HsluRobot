@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.Text;
 using System.Linq;
 using System.Collections.Generic;
+using BitMiracle.LibJpeg;
 
 namespace RobotControl.Drive
 {
@@ -79,13 +80,19 @@ namespace RobotControl.Drive
       }
     }
 
+    public IList<PositionInfo> GetAllPositionInfos()
+    {
+      return _image.GetAllPositionInfos();
+    }
+
     public string GetBase64Image()
     {
       using (MemoryStream memoryStream = new MemoryStream())
       {
-        _image.GetImage().Save(memoryStream, ImageFormat.Bmp);
+        var image = _image.GetImage();
+        var jpeg = new JpegImage(image);
+        jpeg.WriteJpeg(memoryStream);
         memoryStream.Position = 0;
-
         return Convert.ToBase64String(memoryStream.ToArray());
       }
     }

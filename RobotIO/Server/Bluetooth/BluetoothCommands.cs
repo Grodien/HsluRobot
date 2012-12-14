@@ -1,5 +1,14 @@
 ﻿namespace RobotIO.Server.Bluetooth
 {
+  public enum BluetoothCommandResponse
+  {
+    Started = 1,
+    TrackReceived,
+    Status,
+    AllPositions,
+    PositionUpdate
+  }
+
   public static class BluetoothCommands
   {
     public const string Start = "Start";
