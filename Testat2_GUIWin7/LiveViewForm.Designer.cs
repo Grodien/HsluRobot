@@ -46,7 +46,7 @@
       // timer1
       // 
       this.timer1.Interval = 200;
-      this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+      this.timer1.Tick += new System.EventHandler(this.Timer1Tick);
       // 
       // LiveViewForm
       // 
@@ -56,7 +56,8 @@
       this.Controls.Add(this.image);
       this.Name = "LiveViewForm";
       this.Text = "LiveViewForm";
-      this.Shown += new System.EventHandler(this.LiveViewForm_Shown);
+      this.Shown += new System.EventHandler(this.LiveViewFormShown);
+      this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.LiveViewFormFormClosed);
       ((System.ComponentModel.ISupportInitialize)(this.image)).EndInit();
       this.ResumeLayout(false);
 

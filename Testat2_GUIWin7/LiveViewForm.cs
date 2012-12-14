@@ -2,44 +2,52 @@
 using System.Drawing;
 using System.Windows.Forms;
 using RobotControl.Drive;
+using RobotIO.Server.Bluetooth;
+using Testat2_GUIWin7.Bluetooth;
 
 namespace Testat2_GUIWin7
 {
   public partial class LiveViewForm : Form
   {
-    private readonly Action<string> _writeLineAction;
+    private readonly BluetoothConnector _connector;
     private readonly DriveImageCreator _creator;
     private readonly Bitmap _bitmap;
     private bool _shallRefresh;
 
-    public LiveViewForm(Action<string> writeLineAction)
+    public LiveViewForm(BluetoothConnector connector)
     {
       InitializeComponent();
-      _writeLineAction = writeLineAction;
+      _connector = connector;
+      _connector.SubscribeTo(OnMessageReceived, BluetoothCommandResponse.AllPositions);
       _creator = new DriveImageCreator();
       _bitmap = new Bitmap(image.Width, image.Height);
       image.Image = _bitmap;
       _shallRefresh = true;
     }
 
-    public void OnMessageReceived(string message)
+    private void OnMessageReceived(string message)
     {
       _creator.DrawImage(_bitmap, message);
-      image.Refresh();
+      image.Image = _bitmap;
       _shallRefresh = true;
     }
 
-    private void LiveViewForm_Shown(object sender, EventArgs e)
+    private void LiveViewFormShown(object sender, EventArgs e)
     {
       timer1.Enabled = true;
     }
 
-    private void timer1_Tick(object sender, EventArgs e)
+    private void Timer1Tick(object sender, EventArgs e)
     {
-      if (_shallRefresh)
-      {
-        _writeLineAction(RobotIO.Server.Bluetooth.BluetoothCommands.Image);
+      if (_shallRefresh) {
+        _shallRefresh = false;
+        _connector.WriteLine(BluetoothCommands.Image);
       }
+    }
+
+    private void LiveViewFormFormClosed(object sender, FormClosedEventArgs e)
+    {
+      _connector.Unsubscribe(OnMessageReceived, BluetoothCommandResponse.AllPositions);
     }
   }
 }

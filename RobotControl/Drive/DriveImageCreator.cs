@@ -7,7 +7,7 @@ namespace RobotControl.Drive
 {
   public class DriveImageCreator
   {
-    private const float SizeOffset = 1f;
+    private const float SizeOffset = 0.5f;
     private readonly Font _font;
     private readonly Brush _fontBrush;
     private readonly Pen _penGrid2;
@@ -76,18 +76,19 @@ namespace RobotControl.Drive
 
     public void DrawImage(Bitmap bitmap, IList<PositionInfo> tmpList, PositionInfo antennaPosition, float distance)
     {
-      float[] bounderies = DrawPath(bitmap, tmpList);
-      DrawImage(bitmap, tmpList[tmpList.Count-1], antennaPosition, distance, bounderies[0], bounderies[1], bounderies[2], bounderies[3]);
+      float[] bounderies = CalculateMinMaxXY(tmpList);
+      DrawImage(bitmap, tmpList, antennaPosition, distance, bounderies[0], bounderies[1], bounderies[2], bounderies[3]);
     }
 
     public void DrawImage(Bitmap bitmap, string positions)
     {
       string[] splittedPositions = positions.Split('¿');
-      PositionInfo positionInfo;
       PositionInfo antennaPosition;
+      List<PositionInfo> positionList = new List<PositionInfo>();
       float distance;
-      float[] bounderies = DrawPath(bitmap, splittedPositions, out positionInfo, out antennaPosition, out distance);
-      DrawImage(bitmap, positionInfo, antennaPosition, distance, bounderies[0], bounderies[1], bounderies[2], bounderies[3]);
+      ConvertToPositionList(splittedPositions, positionList, out antennaPosition, out distance);
+      float[] bounderies = CalculateMinMaxXY(positionList);
+      DrawImage(bitmap, positionList, antennaPosition, distance, bounderies[0], bounderies[1], bounderies[2], bounderies[3]);
     }
 
     private void ClearImage(Graphics g)
@@ -95,68 +96,21 @@ namespace RobotControl.Drive
       g.Clear(Color.White);
     }
 
-    private float[] DrawPath(Bitmap bitmap, string[] positions, out PositionInfo positionInfo, out PositionInfo antennaPosition, out float distance)
+    private void ConvertToPositionList(string[] positions, List<PositionInfo> positionList, out PositionInfo antennaPosition, out float distance)
     {
-      float xMin = 0f; float xMax = 0f;
-      float yMin = 0f; float yMax = 0f;
-      float[] floatPositions = new float[positions.Length - 4];
-
       for (int i = 0; i < positions.Length-4; i += 2)
       {
-        floatPositions[i] = float.Parse(positions[i]);
-        floatPositions[i+1] = float.Parse(positions[i+1]);
-        if (floatPositions[i] > xMax)
-        {
-          xMax = floatPositions[i];
-        }
-        else if (floatPositions[i] < xMin)
-        {
-          xMin = floatPositions[i];
-        }
-
-        if (floatPositions[i+1] > yMax)
-        {
-          yMax = floatPositions[i+1];
-        }
-        else if (floatPositions[i+1] < yMin)
-        {
-          yMin = floatPositions[i+1];
-        }
+        PositionInfo info = new PositionInfo(float.Parse(positions[i]), float.Parse(positions[i+1]), 0);
+        positionList.Add(info);
       }
 
-      float xDiff = Math.Abs(xMin) + Math.Abs(xMax);
-      float yDiff = Math.Abs(yMin) + Math.Abs(yMax);
-      float xyDiff = xDiff - yDiff;
-      if (xyDiff < 0) {
-        xMin -= Math.Abs(xyDiff/2);
-        xMax += Math.Abs(xyDiff/2);
-      } else {
-        yMin -= Math.Abs(xyDiff / 2);
-        yMax += Math.Abs(xyDiff / 2);
-      }
-
-      xMax += SizeOffset; xMin -= SizeOffset;
-      yMax += SizeOffset; yMin -= SizeOffset;
-
-      positionInfo = new PositionInfo(floatPositions[floatPositions.Length -2], floatPositions[floatPositions.Length -1], float.Parse(positions[positions.Length-3]));
-      antennaPosition = new PositionInfo(float.Parse(positions[positions.Length-3]), float.Parse(positions[positions.Length-2]), 0);
+      PositionInfo lastPos = positionList[positionList.Count - 1];
+      positionList[positionList.Count - 1] = new PositionInfo(lastPos.X, lastPos.Y, float.Parse(positions[positions.Length - 4]));
+      antennaPosition = new PositionInfo(float.Parse(positions[positions.Length-3]), float.Parse(positions[positions.Length-2]),0);
       distance = float.Parse(positions[positions.Length - 1]);
-
-      // Draw Points
-      using (Graphics g = Graphics.FromImage(bitmap))
-      {
-        ClearImage(g);
-        for (int i = 0; i < floatPositions.Length; i += 2)
-        {
-          g.FillEllipse(_brushRun, XtoScreen(bitmap.Width, xMin, xMax, floatPositions[i]), 
-                                   YtoScreen(bitmap.Height, yMin, yMax, floatPositions[i+1]), 
-                        5, 5);
-        }
-      }
-      return new[] { xMin, xMax, yMin, yMax };
     }
 
-    private float[] DrawPath(Bitmap bitmap, IList<PositionInfo> tmpList)
+    private float[] CalculateMinMaxXY(IList<PositionInfo> tmpList)
     {
       float xMin, xMax, yMin, yMax = 0f;
       int itemCount = tmpList.Count;
@@ -178,50 +132,47 @@ namespace RobotControl.Drive
         if (info.X > xMax)
         {
           xMax = info.X;
-          yMax = info.X;
         }
         else if (info.X < xMin)
         {
           xMin = info.X;
-          yMin = info.X;
         }
 
         if (info.Y > yMax)
         {
           yMax = info.Y;
-          xMax = info.Y;
         }
         else if (info.Y < yMin)
         {
           yMin = info.Y;
-          xMin = info.Y;
         }
+      }
+
+      float xDiff = Math.Abs(xMin) + Math.Abs(xMax);
+      float yDiff = Math.Abs(yMin) + Math.Abs(yMax);
+      float xyDiff = xDiff - yDiff;
+      if (xyDiff < 0) {
+        xMin -= Math.Abs(xyDiff/2);
+        xMax -= Math.Abs(xyDiff / 2);
+      } else {
+        yMin -= Math.Abs(xyDiff / 2);
+        yMax -= Math.Abs(xyDiff / 2);
       }
 
       xMax += SizeOffset; xMin -= SizeOffset;
       yMax += SizeOffset; yMin -= SizeOffset;
 
-      // Draw Points
-      using (Graphics g = Graphics.FromImage(bitmap))
-      {
-        ClearImage(g);
-        foreach (var positionInfo in tmpList)
-        {
-          g.FillEllipse(_brushRun, XtoScreen(bitmap.Width, xMin, xMax, positionInfo.X), 
-                                   YtoScreen(bitmap.Height, yMin, yMax, positionInfo.Y), 
-                        5, 5);
-        }
-      }
-
       return new[] {xMin, xMax, yMin, yMax};
     }
 
-    private void DrawImage(Bitmap bitmap, PositionInfo lastPosInfo, PositionInfo antennaPosition, float distance, float xMin, float xMax, float yMin, float yMax) {
+    private void DrawImage(Bitmap bitmap, IList<PositionInfo> posInfos , PositionInfo antennaPosition, float distance, float xMin, float xMax, float yMin, float yMax) {
       int width = bitmap.Width;
       int height = bitmap.Height;
 
       using (Graphics g = Graphics.FromImage(bitmap))
       {
+        ClearImage(g);
+
         // Vertikale Linien die >viewPort.xMin bzw. <viewPort.xMax sind zeichnen...
         double y = yMin - (yMin % 0.5);
         for (; y < yMax; y += .5d)
@@ -240,8 +191,16 @@ namespace RobotControl.Drive
           g.DrawString(x.ToString(CultureInfo.InvariantCulture), _font, _fontBrush, xScreen + 3, 5);
         }
 
+        // Draw Points
+        foreach (var positionInfo in posInfos) {
+          g.FillEllipse(_brushRun, XtoScreen(bitmap.Width, xMin, xMax, positionInfo.X),
+                               YtoScreen(bitmap.Height, yMin, yMax, positionInfo.Y),
+                    5, 5);
+        }
+
         #region Roboter zeichnen
 
+        PositionInfo lastPosInfo = posInfos[posInfos.Count - 1];
         double phi = lastPosInfo.Angle / 180 * Math.PI;
 
         // Roboter.Radar

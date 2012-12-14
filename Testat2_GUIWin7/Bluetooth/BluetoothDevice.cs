@@ -6,7 +6,7 @@ using InTheHand.Net.Sockets;
 
 namespace Testat2_GUIWin7.Bluetooth
 {
-  class BluetoothDevice
+  public class BluetoothDevice
   {
     public BluetoothDevice(BluetoothDeviceInfo deviceInfo) {
       DeviceInfo = deviceInfo;

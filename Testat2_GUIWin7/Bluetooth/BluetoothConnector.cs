@@ -9,7 +9,7 @@ using RobotIO.Server.Bluetooth;
 
 namespace Testat2_GUIWin7.Bluetooth
 {
-  class BluetoothConnector
+  public class BluetoothConnector
   {
     private BluetoothClient _client;
     private StreamWriter _writer;

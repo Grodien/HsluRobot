@@ -47,7 +47,7 @@ namespace Testat2_GUIWin7
         statusLabel.Text = String.Format("Response: {0}", messageParts[0]);
         foreach (var messagePart in messageParts)
         {
-          lsbRobotMessages.Items.Add(message);
+          lsbRobotMessages.Items.Add(messagePart);
         }
         lsbRobotMessages.SelectedIndex = lsbRobotMessages.Items.Count - 1;
         lsbRobotMessages.SelectedIndex = -1;
@@ -212,16 +212,16 @@ namespace Testat2_GUIWin7
     {
       lock(_liveViewFormFormLocker)
       {
-        if (_liveViewFormForm == null)
-        {
-          _liveViewFormForm = new LiveViewForm(_connector.WriteLine);
-          _connector.SubscribeTo(_liveViewFormForm.OnMessageReceived, BluetoothCommandResponse.AllPositions);
+        if (_liveViewFormForm == null) {
+          statusLabel.Text = "Starting Livestream...";
+          _liveViewFormForm = new LiveViewForm(_connector);
           _liveViewFormForm.Closed += (o, ea) =>
                                         {
-                                          _connector.Unsubscribe(_liveViewFormForm.OnMessageReceived, BluetoothCommandResponse.AllPositions);
                                           _liveViewFormForm = null;
+                                          statusLabel.Text = "Livestream stopped!";
                                         };
           _liveViewFormForm.Show();
+          statusLabel.Text = "Livestream started!";
         }
       }
     }
